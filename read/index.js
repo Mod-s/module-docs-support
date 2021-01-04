@@ -5,7 +5,7 @@ const moduleDocsModel = require('./moduleDocsModel.schema');
 
 exports.handler = async(event)=>{
 
-  const id = event.pathParamters.id;
+  const id = event.pathParameters.id;
 
   try{
     let data;
