@@ -22,8 +22,9 @@ exports.handler = async(event)=>{
     let mainUrl = data.mainUrl;
     let multipleUrl = data.multipleUrl.push(updatedMultipleUrl);
     let description = data.description;
+    let protected = data.protected;
 
-    const updatedData = await moduleDocsModel.update({id, name, mainUrl, multipleUrl, description});
+    const updatedData = await moduleDocsModel.update({id, name, mainUrl, multipleUrl, description, protected});
 
     console.log('__Updated Record__: ', update);
 
