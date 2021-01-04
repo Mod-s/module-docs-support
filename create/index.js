@@ -6,11 +6,16 @@ const moduleDocsModel = require('./module.doc.schema.js');
 
 exports.handler = async (event) => {
   const { name, mainUrl, multipleUrl, description } = JSON.parse(event.body);
+  
+  let protected;
+
+  if(event.body.protected) protected = true;
+  if(!event.body.protected) protected = false; 
 
   const id = uuid();
 
   try {
-    const record = new moduleDocsModel({ id, name, mainUrl, multipleUrl, description });
+    const record = new moduleDocsModel({ id, name, mainUrl, multipleUrl, description, protected });
     const data = await record.save();
 
     return {
