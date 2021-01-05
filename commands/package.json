@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^4.1.0",
     "commander": "^6.2.1",
     "express": "^4.17.1",
+    "inquirer": "^7.3.3",
     "superagent": "^6.1.0"
   }
 }
