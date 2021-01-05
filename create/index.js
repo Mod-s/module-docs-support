@@ -27,3 +27,10 @@ exports.handler = async (event) => {
     }
   }
 };
+
+const ddb = new DocumentClient({
+  convertEmptyValues: true,
+  endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
+  sslEnabled: false,
+  region: "local",
+});
