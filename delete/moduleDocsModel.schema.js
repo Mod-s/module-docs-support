@@ -11,7 +11,7 @@ const moduleDocsSchema = new dynamoose.Schema({
     "schema": [String]
   },
   "description": String,
-  "protected": Boolean
+  "protect": Boolean
 });
 
 module.exports = dynamoose.model('moduleDocs', moduleDocsSchema);

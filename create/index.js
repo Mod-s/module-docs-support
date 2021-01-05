@@ -1,21 +1,19 @@
 'use strict';
 
 const uuid = require('uuid').v4;
-const moduleDocsModel = require('./module.doc.schema.js');
+const moduleDocsModel = require('./moduleDocsModel.schema.js');
 
 
 exports.handler = async (event) => {
-  const { name, mainUrl, multipleUrl, description } = JSON.parse(event.body);
-  
-  let protected;
+  const { name, mainUrl, multipleUrl, description, protect } = JSON.parse(event.body);
 
-  if(event.body.protected) protected = true;
-  if(!event.body.protected) protected = false; 
+
+  if (protect === null) (protect = false);
 
   const id = uuid();
 
   try {
-    const record = new moduleDocsModel({ id, name, mainUrl, multipleUrl, description, protected });
+    const record = new moduleDocsModel({ id, name, mainUrl, multipleUrl, description, protect });
     const data = await record.save();
 
     return {
