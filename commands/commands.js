@@ -149,6 +149,7 @@ program
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 //DELETE a module or user created URL::::::::::::::::::::::::::::::::
+//TODO: Have a user select a module and display it, number the usercreated URLs by idx
 //TODO: Send the following to the DELETE lambda: id as a param + body { "deleteRecord": 1 or 0, "urlToDelete": idx # of userUrl to remove }
 //TODO: Return lambda response to user ************************************************************************************
 //TODO: Create an ADMIN DELETE option so that we can clean up our database and delete protected records *******************
