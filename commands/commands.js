@@ -54,6 +54,40 @@ program
   })
 
 //::::::::::::::::::::::::::::
+
+// UPDATE: ADD USER DEFINED URL TO A RECORD :::::::::::::::::::::::::::::::
+
+program
+  .command('add-doc')
+  .arguments('<module>', '<url>')
+  .alias('ad')
+  .description('Add a URL to a module')
+  .action(function (module, url) {
+    superagent.get('https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/')
+
+      .then(results => {
+        let info = JSON.parse(results.text);
+        let idToUpdate;
+        info.forEach(item => {
+          if(item.name === module) {
+            console.log(item.name);
+            idToUpdate = item.id;
+          }
+        })
+      })
+      .then(
+        superagent.post(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/${id}`)
+        .send({ multipleUrl: `${url}`})
+        .then(res => {
+          //TODO: Capture response and display the updated record
+          console.log('Response from Update Lambda ', res);
+        })
+      )
+      .catch(e => console.error('this is an error!', e))
+  })
+
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 program.parse(process.argv);
 
 
