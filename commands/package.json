@@ -1,8 +1,10 @@
 {
-  "name": "commands",
+  "name": "mod-s",
   "version": "1.0.0",
-  "description": "",
+  "description": "Command Line Interface providing access to Node Module Documentation",
   "main": "commands.js",
+  "preferGlobal": true,
+  "bin": "./commands.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
