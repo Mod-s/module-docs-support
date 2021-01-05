@@ -60,6 +60,9 @@ program
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 // SELECT SPECIFIC MODULE:::::::::::::::::::::::::::::::
+// TODO: Send the following to the GET lambda: id via params
+// TODO: Return a single record and display all info to the user
+
 // program
 //   .command('select-module')
 //   .arguments('<moduleName>')
@@ -105,23 +108,7 @@ program
 
 //   })
 
-  const addQuestions = [
-    {
-      type: 'input',
-      name: 'name',
-      message: 'Enter the Node Module Name: '
-    },
-    {
-      type: 'input',
-      name: 'description',
-      message: 'Enter a description for the new Node Module: '
-    },
-    {
-      type: 'input',
-      name: 'url',
-      message: 'Enter the URL for the Node Module documentation: '
-    }
-  ]
+  
 
   program
 
