@@ -5,7 +5,8 @@ const moduleDocsModel = require('./moduleDocsModel.schema.js');
 const { DocumentClient } = require('aws-sdk/clients/dynamodb');
 
 
-exports.handler = async (event) => {
+// exports.handler = async (event) => {
+exports.handler.create = async (event) => {
   const { name, mainUrl, multipleUrl, description, protect } = JSON.parse(event.body);
 
 

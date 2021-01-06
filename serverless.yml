@@ -1,0 +1,33 @@
+app: mod-s
+org: modules
+# added below
+service: module-dos-support
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-west-2
+  # role: lambda-role
+  stage: $default
+  timeout: 5s
+
+functions:
+  module-docs-support-GET:
+    handler: LAMBDA/read/index.read
+    role: arn:aws:iam::357921866167:role/service-role/module-docs-support-GET-role-q4pdyq30
+    events:
+      - http: GET read
+  module-docs-support-POST:
+    handler: LAMBDA/create/index.create
+    role: arn:aws:iam::357921866167:role/service-role/module-docs-support-POST-role-9co9au39
+    events:
+      - http: POST create
+  module-docs-support-PUT:
+    handler: LAMBDA/update/index.update
+    role: arn:aws:iam::357921866167:role/service-role/module-docs-support-PUT-role-2xp4inbj
+    events:
+      - http: PUT update
+  module-docs-support-DELETE:
+    handler: LAMBDA/delete/index.delete
+    role: arn:aws:iam::357921866167:role/service-role/module-docs-support-DELETE-role-0u2la27b
+    events:
+      - http: DELETE delete
