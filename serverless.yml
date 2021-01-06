@@ -7,7 +7,7 @@ provider:
   runtime: nodejs12.x
   region: us-west-2
   # role: lambda-role
-  stage: $default
+  stage: default
   timeout: 5s
 
 functions:
@@ -15,19 +15,19 @@ functions:
     handler: LAMBDA/read/index.read
     role: arn:aws:iam::357921866167:role/service-role/module-docs-support-GET-role-q4pdyq30
     events:
-      - http: GET read
+      - http: GET
   module-docs-support-POST:
     handler: LAMBDA/create/index.create
     role: arn:aws:iam::357921866167:role/service-role/module-docs-support-POST-role-9co9au39
     events:
-      - http: POST create
+      - http: POST
   module-docs-support-PUT:
     handler: LAMBDA/update/index.update
     role: arn:aws:iam::357921866167:role/service-role/module-docs-support-PUT-role-2xp4inbj
     events:
-      - http: PUT update
+      - http: PUT
   module-docs-support-DELETE:
     handler: LAMBDA/delete/index.delete
     role: arn:aws:iam::357921866167:role/service-role/module-docs-support-DELETE-role-0u2la27b
     events:
-      - http: DELETE delete
+      - http: DELETE
