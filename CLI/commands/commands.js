@@ -26,25 +26,42 @@ program
 
       .then(response => {
         let info = JSON.parse(response.text);
-        return info.map(item => {
-          return item.name;
+        // console.log('parsed info',info);
+        let list = info.map(item => {
+          return item.name.toUpperCase();
         })
+        list.sort();
 
         // info.forEach(item => {
         //   console.log(chalk.bold.rgb(10, 100, 200)(item.name));
         //   console.log(chalk.rgb(245, 66, 209)('>>>>>---------->'));
         // })
-      })
-      .then((list) => {
+        
         const question = [
           { type: 'list', name: 'you chose', message: 'select a module', choices: list },
           // { type: 'list', name: 'doc', message: 'select a url', choices: url }
         ];
+        // console.log('_____is info still info_______',info);
+        console.log('question after the question, but before the answer...', question)
+      
+
         inquirer
-          .prompt(question)
-          .then(answer => {
-            console.log(answer);
+        .prompt(question)
+        .then(answer => {
+
+          console.log('we did not lose info', info);
+          //TO DO:
+          //TURN RESPONSE INTO MODULE OBJECT
+          //CHOICE TO OPEN(NAME AND URL) OR SEE MORE(POPS DESCRIPTION OR WHOLE OBJECT) 
+          console.log('what is the ansWer?', answer);
+          let chosenModule = Object.values(answer);
+          console.log('I chose you....', chosenModule[0]);
+          info.forEach(item=>{
+            // console.log('can never have too many items:', item)
+            if(item.name === chosenModule[0]){
+              console.log(item)}
           })
+        })
       })
 
     // .catch(e => console.error('this is an error!', e))
@@ -127,10 +144,10 @@ program
   .description(`Add a new node module and the link to it's documentation`)
   .action(() => {
     inquirer.prompt(addQuestions).then(
-      function ({ name, description, url }) {
+      function ({ name, description, url, multipleUrl = [], protect = false }) {
         //console.log('name: ', name, 'description: ', description, 'url: ', url);
         superagent.post(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support`)
-          .send({ "name": `${name}`, "description": `${description}`, "mainUrl": `${url}` })
+          .send({ "name": `${name}`, "description": `${description}`, "mainUrl": `${url}`, multipleUrl, protect })
           .then(response => {
             let info = JSON.parse(response.text);
             console.log(chalk.rgb(245, 66, 209)('Thanks! You successfully added:'));
@@ -173,31 +190,34 @@ program
 // TODO: Return the response from lambda to the user ******************************************************
 
 program
+
   .command('add-doc')
   .arguments('<module>', '<url>')
   .alias('ad')
   .description('Add a URL to a module')
   .action(function (module, url) {
     superagent.get('https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/')
-
       .then(results => {
         let info = JSON.parse(results.text);
         let idToUpdate;
         info.forEach(item => {
           if (item.name === module) {
-            console.log(item.name);
-            idToUpdate = item.id;
+            idToUpdate = item;
           }
         })
+        return { idToUpdate, url };
       })
-      .then(
-        superagent.post(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/${id}`)
-          .send({ multipleUrl: `${url}` })
+      .then(information => {
+        console.log('INFORMATION', information.idToUpdate);
+        let newURL = url.args[1];
+        superagent.put(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/${information.id}`)
+          .send({ "name": `${information.name}`, "description": `${information.description}`, "mainUrl": `${information.url}`, "multipleUrl": `${information.multipleUrl}`, "protect": `${information.protect}` })
           .then(res => {
             //TODO: Capture response and display the updated record
             console.log('Response from Update Lambda ', res);
           })
-      )
+      })
+
       .catch(e => console.error('this is an error!', e))
   })
 
