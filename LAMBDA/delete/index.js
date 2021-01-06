@@ -4,7 +4,8 @@
 
 const moduleDocsModel = require('./moduleDocsModel.schema');
 
-exports.handler = async (event) => {
+// exports.handler = async (event) => {
+exports.handler.delete = async (event) => {
   console.log('1.__EVENT__PUT:', event);
 
   const id = event.pathParameters.id; //capture record id from the user

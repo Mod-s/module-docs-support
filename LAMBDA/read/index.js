@@ -3,7 +3,8 @@
 
 const moduleDocsModel = require('./moduleDocsModel.schema');
 
-exports.handler = async(event)=>{
+// exports.handler = async(event)=>{
+exports.handler.read = async(event)=>{
 
   const id = event.pathParameters.id;
 
