@@ -44,25 +44,24 @@ program
         // console.log('_____is info still info_______',info);
         console.log('question after the question, but before the answer...', question)
 
-
         inquirer
-          .prompt(question)
-          .then(answer => {
+        .prompt(question)
+        .then(answer => {
 
-            console.log('we did not lose info', info);
-            //TO DO:
-            //TURN RESPONSE INTO MODULE OBJECT
-            //CHOICE TO OPEN(NAME AND URL) OR SEE MORE(POPS DESCRIPTION OR WHOLE OBJECT) 
-            console.log('what is the ansWer?', answer);
-            let chosenModule = Object.values(answer);
-            console.log('I chose you....', chosenModule[0]);
-            info.forEach(item => {
-              // console.log('can never have too many items:', item)
-              if (item.name === chosenModule[0]) {
-                console.log(item)
-              }
-            })
+          console.log('we did not lose info', info);
+          //TO DO:
+          //TURN RESPONSE INTO MODULE OBJECT
+          //CHOICE TO OPEN(NAME AND URL) OR SEE MORE(POPS DESCRIPTION OR WHOLE OBJECT) 
+          console.log('what is the ansWer?', answer);
+          let chosenModule = Object.values(answer);
+          console.log('I chose you....', chosenModule[0]);
+          info.forEach(item=>{
+            // console.log('can never have too many items:', item)
+            if(item.name === chosenModule[0]){
+              console.log(item)}
+
           })
+        })
       })
 
     // .catch(e => console.error('this is an error!', e))

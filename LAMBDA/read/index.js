@@ -4,9 +4,11 @@
 const moduleDocsModel = require('./moduleDocsModel.schema');
 
 // exports.handler = async(event)=>{
+
 exports.handler = async (event) => {
   let id;
   if (event.pathParameters) {
+
 
     id = event.pathParameters.id;
   };
