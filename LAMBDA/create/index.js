@@ -2,6 +2,7 @@
 
 const uuid = require('uuid').v4;
 const moduleDocsModel = require('./moduleDocsModel.schema.js');
+const { DocumentClient } = require('aws-sdk/clients/dynamodb');
 
 
 exports.handler = async (event) => {
@@ -28,9 +29,3 @@ exports.handler = async (event) => {
   }
 };
 
-const ddb = new DocumentClient({
-  convertEmptyValues: true,
-  endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
-  sslEnabled: false,
-  region: "local",
-});
