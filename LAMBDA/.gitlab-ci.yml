@@ -14,7 +14,8 @@ default:
 
 # If no .npmrc if included in the repo, generate a temporary one to use during the publish step
 # that is configured to publish to GitLab's NPM registry
-create_npmrc:
+# create_npmrc:
+create:
   stage: build
   script:
     # - |
@@ -29,9 +30,9 @@ create_npmrc:
 
     #   fi
     - npm test
-  artifacts:
-    paths:
-      - .npmrc
+  # artifacts:
+  #   paths:
+  #     - .npmrc
 
 # Publish the package. If the version in package.json has not yet been published, it will be
 # published to GitLab's NPM registry. If the version already exists, the publish command
@@ -40,10 +41,10 @@ publish_package:
   stage: deploy
   script:
     - serverless deploy
-    - |
-      {
-        npm publish &&
-        echo "Successfully published version ${NPM_PACKAGE_VERSION} of ${NPM_PACKAGE_NAME} to GitLab's NPM registry: ${CI_PROJECT_URL}/-/packages"
-      } || {
-        echo "No new version of ${NPM_PACKAGE_NAME} published. This is most likely because version ${NPM_PACKAGE_VERSION} already exists in GitLab's NPM registry."
-      }
+    # - |
+    #   {
+    #     npm publish &&
+    #     echo "Successfully published version ${NPM_PACKAGE_VERSION} of ${NPM_PACKAGE_NAME} to GitLab's NPM registry: ${CI_PROJECT_URL}/-/packages"
+    #   } || {
+    #     echo "No new version of ${NPM_PACKAGE_NAME} published. This is most likely because version ${NPM_PACKAGE_VERSION} already exists in GitLab's NPM registry."
+    #   }
