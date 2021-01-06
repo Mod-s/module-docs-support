@@ -1,0 +1,27 @@
+{
+  "name": "module-docs-support",
+  "version": "1.0.0",
+  "description": "## Authors: Ricardo Barcenas, Mariko Alvarado, Stacy Burris, Simon Panek",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mod-s/module-docs-support.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mod-s/module-docs-support/issues"
+  },
+  "homepage": "https://github.com/Mod-s/module-docs-support#readme",
+  "dependencies": {
+    "commander": "^6.2.1",
+    "dynamoose": "^2.5.0",
+    "inquirer": "^7.3.3",
+    "jest-dynalite": "^3.2.5",
+    "uuid": "^8.3.2"
+  }
+}
