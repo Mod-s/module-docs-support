@@ -4,7 +4,9 @@
 const moduleDocsModel = require('./moduleDocsModel.schema');
 
 // exports.handler = async (event) => {
-exports.handler.update = async (event) => {
+
+exports.handler = async (event) => {
+
   // console.log('1.__EVENT__PUT:', event);
   let { updateUrl } = JSON.parse(event.body);
 
@@ -13,7 +15,7 @@ exports.handler.update = async (event) => {
   const id = event.pathParameters.id
 
   // console.log('2__Updated updateUrl From User__: ', updateUrl);
-//new urls that were sent with put request (updateUrl) [ 'www.here9000.com', 'www.backagain.com' ]
+  //new urls that were sent with put request (updateUrl) [ 'www.here9000.com', 'www.backagain.com' ]
   try {
     let data;
 
@@ -22,7 +24,7 @@ exports.handler.update = async (event) => {
 
     // console.log('A.____ Data at 0: ', data[0]);
     //document object {}
-    
+
     // console.log('B.____ Data[0].multipleUrl: ', data[0].multipleUrl);
     //original url's to be updated [ 'www.here1.com', 'www.here2.com' ]
 

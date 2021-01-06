@@ -5,15 +5,17 @@
 const moduleDocsModel = require('./moduleDocsModel.schema');
 
 // exports.handler = async (event) => {
-exports.handler.delete = async (event) => {
+
+exports.handler = async (event) => {
+
   console.log('1.__EVENT__PUT:', event);
 
   const id = event.pathParameters.id; //capture record id from the user
-  const {deleteRecord} = JSON.parse(event.body); //user input requesting to delete record (users sends 1 to delete whole record or 0 to delete only a user url)
+  const { deleteRecord } = JSON.parse(event.body); //user input requesting to delete record (users sends 1 to delete whole record or 0 to delete only a user url)
 
   // if (deleteRecord === 0) { //check to see if the user is trying to remove a user-created url
-    const {urlToDelete} = JSON.parse(event.body); //capture the index position of the user-generated url to delete
-    console.log('__URL Index To Delete From User__: ', urlToDelete);
+  const { urlToDelete } = JSON.parse(event.body); //capture the index position of the user-generated url to delete
+  console.log('__URL Index To Delete From User__: ', urlToDelete);
   // }
 
   try {
@@ -34,7 +36,7 @@ exports.handler.delete = async (event) => {
 
     if (deleteRecord === 1 && protect === true) { //check to see if user wants to delete the entire record and if it is protect
       return {
-        statusCode: 403, 
+        statusCode: 403,
         body: 'This record is protect. User may only delete user created content. If you would like to delete a user created URL, please try again, but do not attempt to delete the entire record.' //return a message indicating that deletion of a protect record is not allowed
       }
     }
@@ -71,9 +73,9 @@ exports.handler.delete = async (event) => {
     }
 
   } catch (e) {
-    console.log('-------------error message ----------',e)
+    console.log('-------------error message ----------', e)
     return {
-      
+
       statusCode: 500,
       response: e.message
     }
@@ -91,12 +93,12 @@ exports.handler.delete = async (event) => {
       // console.log('type of _____array.from to change it? what will it be?', typeof(Array.from(data[0].multipleUrl)));
       // console.log('Object.entries to change our fake object into a real array', Object.entries(data[0].multipleUrl))
       // console.log('type of Object.entries to change our fake object into a real array', typeof(Object.entries(data[0].multipleUrl)))
-      
+
       // console.log('C.Part2 _______before deleting a Url', data[0].multipleUrl)
       // let multipleUrl = JSON.stringify(data[0].multipleUrl) //we'll come back to you...don't worry <--------------
       //--------------------------
-      
-      
+
+
 
       //--------------------------
       //you are now leaving console log city, thank you for visiting
