@@ -4,7 +4,9 @@
 const moduleDocsModel = require('./moduleDocsModel.schema');
 
 // exports.handler = async (event) => {
+
 exports.handler = async (event) => {
+
   // console.log('1.__EVENT__PUT:', event);
   let { updateUrl } = JSON.parse(event.body);
 
