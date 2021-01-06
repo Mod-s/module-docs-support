@@ -1,4 +1,4 @@
-#!/usr/bin/env node 
+#!/usr/bin/env node
 
 //Above makes this a shell command, add a few items to the package json and run `npm link` to create the link
 //to unlink `npm unlink`
@@ -16,13 +16,6 @@ program
   .description('Node Module Documents')
 
 //RETRIEVE ALL MODULES AVAILABLE:::::::::::::::::
-exports.listMods = [
-  { modName: 'Espresso', price: '$5.99' },
-  { modName: 'Latte', price: '$4.50' },
-  { modName: 'Cappuchino', price: '$3.99' },
-  { modName: 'Americano', price: '$2.50' },
-  { modName: 'Macchiato', price: '$3.50' },
-];
 
 program
   .command('see-modules') //TODO: can we change this to "list"? ********************************************
@@ -109,42 +102,42 @@ program
 
 //   })
 
-  const addQuestions = [
-    {
-      type: 'input',
-      name: 'name',
-      message: 'Enter the Node Module Name: '
-    },
-    {
-      type: 'input',
-      name: 'description',
-      message: 'Enter a description for the new Node Module: '
-    },
-    {
-      type: 'input',
-      name: 'url',
-      message: 'Enter the URL for the Node Module documentation: '
-    }
-  ]
+const addQuestions = [
+  {
+    type: 'input',
+    name: 'name',
+    message: 'Enter the Node Module Name: '
+  },
+  {
+    type: 'input',
+    name: 'description',
+    message: 'Enter a description for the new Node Module: '
+  },
+  {
+    type: 'input',
+    name: 'url',
+    message: 'Enter the URL for the Node Module documentation: '
+  }
+]
 
-  program
+program
 
   .command('add-module')
   .alias('am')
   .description(`Add a new node module and the link to it's documentation`)
-  .action( () => {
-    inquirer.prompt(addQuestions).then (
-      function ({name, description, url}) {
+  .action(() => {
+    inquirer.prompt(addQuestions).then(
+      function ({ name, description, url }) {
         //console.log('name: ', name, 'description: ', description, 'url: ', url);
-      superagent.post(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support`)
-        .send({ "name": `${name}`, "description": `${description}`, "mainUrl": `${url}` })
-        .then(response => {
-          let info = JSON.parse(response.text);
-          console.log(chalk.rgb(245, 66, 209)('Thanks! You successfully added:'));
-          console.log(chalk.rgb(10, 100, 200)(`NAME :: ${info.name}`));
-          console.log(chalk.rgb(10, 100, 200)(`DESC :: ${info.description}`));
-          console.log(chalk.rgb(10, 100, 200)(`URL :: ${info.mainUrl}`));
-        })
+        superagent.post(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support`)
+          .send({ "name": `${name}`, "description": `${description}`, "mainUrl": `${url}` })
+          .then(response => {
+            let info = JSON.parse(response.text);
+            console.log(chalk.rgb(245, 66, 209)('Thanks! You successfully added:'));
+            console.log(chalk.rgb(10, 100, 200)(`NAME :: ${info.name}`));
+            console.log(chalk.rgb(10, 100, 200)(`DESC :: ${info.description}`));
+            console.log(chalk.rgb(10, 100, 200)(`URL :: ${info.mainUrl}`));
+          })
       })
       .catch(e => console.error('this is an error!', e))
 
@@ -191,7 +184,7 @@ program
         let info = JSON.parse(results.text);
         let idToUpdate;
         info.forEach(item => {
-          if(item.name === module) {
+          if (item.name === module) {
             console.log(item.name);
             idToUpdate = item.id;
           }
@@ -199,11 +192,11 @@ program
       })
       .then(
         superagent.post(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/${id}`)
-        .send({ multipleUrl: `${url}`})
-        .then(res => {
-          //TODO: Capture response and display the updated record
-          console.log('Response from Update Lambda ', res);
-        })
+          .send({ multipleUrl: `${url}` })
+          .then(res => {
+            //TODO: Capture response and display the updated record
+            console.log('Response from Update Lambda ', res);
+          })
       )
       .catch(e => console.error('this is an error!', e))
   })
