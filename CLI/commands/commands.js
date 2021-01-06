@@ -26,25 +26,42 @@ program
 
       .then(response => {
         let info = JSON.parse(response.text);
-        return info.map(item => {
-          return item.name;
+        // console.log('parsed info',info);
+        let list = info.map(item => {
+          return item.name.toUpperCase();
         })
+        list.sort();
 
         // info.forEach(item => {
         //   console.log(chalk.bold.rgb(10, 100, 200)(item.name));
         //   console.log(chalk.rgb(245, 66, 209)('>>>>>---------->'));
         // })
-      })
-      .then((list) => {
+        
         const question = [
           { type: 'list', name: 'you chose', message: 'select a module', choices: list },
           // { type: 'list', name: 'doc', message: 'select a url', choices: url }
         ];
+        // console.log('_____is info still info_______',info);
+        console.log('question after the question, but before the answer...', question)
+      
+
         inquirer
-          .prompt(question)
-          .then(answer => {
-            console.log(answer);
+        .prompt(question)
+        .then(answer => {
+
+          console.log('we did not lose info', info);
+          //TO DO:
+          //TURN RESPONSE INTO MODULE OBJECT
+          //CHOICE TO OPEN(NAME AND URL) OR SEE MORE(POPS DESCRIPTION OR WHOLE OBJECT) 
+          console.log('what is the ansWer?', answer);
+          let chosenModule = Object.values(answer);
+          console.log('I chose you....', chosenModule[0]);
+          info.forEach(item=>{
+            // console.log('can never have too many items:', item)
+            if(item.name === chosenModule[0]){
+              console.log(item)}
           })
+        })
       })
 
     // .catch(e => console.error('this is an error!', e))
