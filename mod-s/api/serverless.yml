@@ -1,0 +1,18 @@
+component: express
+name: api
+
+inputs:
+  # Express application source code.
+  src: ./
+  # Permissions required for the AWS Lambda function to interact with other resources
+  roleName: ${output:permissions.name}
+  # Enable this when you want to set a custom domain.
+  # domain: api.${env:domain}
+  # Environment variables
+  env:
+    # AWS DynamoDB Table name. Needed for the code to access it.
+    db: ${output:database.name}
+    # AWS DynamoDB Table Index name. Needed for the code to access it.
+    dbIndex1: ${output:database.indexes.gsi1.name}
+    # A secret token to sign the JWT tokens with.
+    tokenSecret: secret_1234 # Change to secret via environment variable: ${env:tokenSecret}
