@@ -167,12 +167,11 @@ program
 //TODO: Return lambda response to user ************************************************************************************
 //TODO: Create an ADMIN DELETE option so that we can clean up our database and delete protected records *******************
 
+
 program
-  .command('delete-module')
-  // .argument('')
-  .alias('dm')
+  .command('delete')
+  .alias('d')
   .description(chalk.rgb(10, 100, 200)('Delete user created content'))
-  // .option('-u, --url', 'deletes a chosen user created url')
   .action(() => {
     //1) Delete record or delete url?
     //2) Get all
@@ -182,127 +181,60 @@ program
     //6) User selects url
     //7) Delete url console.log('url option ', program.url);
 
-
-
-    
-    // let deleteChoiceArray = ['Entire Module', 'Single URL'];
-
-    // const questionAllorUrl = [{
-    //   type: 'list',
-    //   name: 'delete-choice',
-    //   message: 'Delete an entire module or a single URL?',
-    //   choices: deleteChoiceArray
-    // },
-    // { 
-    //   type: 'list', name: 'you chose', message: 'Select a module to delete', when: (answer) => {answer.delete-choice === 'Entire Module' }, choices: list 
-    // },
-    // ];
-
-    // // inquirer.prompt(prompts);
-    // inquirer
-    // .prompt(questionAllorUrl)
-    // .then(answer2 => {
-    //     console.log('answer2: ', answer2);
-    //     let chosenDelete = Object.values(answer2);
-    //     return chosenDelete;
-    // })
-// console.log('delete choice ', chosenDelete); 
     // superagent.get('https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/') //obsolete: route prior to serverless deploy (save for now as backup)
     superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
     
       .then(response => {
         let info = JSON.parse(response.text);
+        return info;
+      })
+      .then(async info => {
+
         let list = info.map(item => {
           return item.name.toUpperCase();
         })
         list.sort();
-        // console.log('list ', list);
 
-        // const question = [
-        //   { type: 'list', name: 'you chose', message: 'Select a module to delete', choices: list },
-        // ];
-        
-        // when: (answers) => answers.databasetype === 'mongoDB'
-
-        let deleteChoiceArray = ['Entire Module', 'Single URL'];
-
-        const questionAllorUrl = [{
-          type: 'list',
-          name: 'deleteChoice',
-          message: 'Delete an entire module or a single URL?',
-          choices: deleteChoiceArray
-        },
-        { 
-          type: 'list', name: 'you chose', message: 'Select a module to delete', when: (answer) => {answer.deleteChoice === 'Entire Module' }, choices: list 
-        },
-        ];
-
-    // inquirer.prompt(prompts);
-    inquirer
-    .prompt(questionAllorUrl[0])
-    .then(answer2 => {
-        console.log('answer2: ', answer2);
-        let chosenDelete = Object.values(answer2);
-        return chosenDelete;
-    })
-
-        inquirer
-        .prompt(questionAllorUrl[1])
-        .then(answer => {
-          let chosenModule = Object.values(answer);
-          let tempChoice;
-          info.forEach(item=>{
-            let matchCheck = item.name.toUpperCase();
-            if(matchCheck === chosenModule[0]){
-              tempChoice = item;
-            }
-          })
-          
-          // console.log('program.url ', program.url);
-
-          // if (options.url){
-          //   showMultiURL(tempChoice);
-          // } else {
-          //   deleteWholeRecord(tempChoice);
-          // }
+        let answerOne;
+        let answerTwo;
+        const deleteQuestions = [
+          {
+            type: 'input',
+            name: 'allOrUrl',
+            message: 'Enter (1) to delete an entire user created module or (0) to delete a user added URL: '
+          },
+          {
+            type: 'list',
+            name: 'pickModule',
+            message: 'Select the relevant module: ',
+            choices: list
+          }
+        ]
+        await inquirer.prompt(deleteQuestions).then(answers => {
+          console.log('deleteQuestions answers: ', answers);
+          console.log('answer1: ', answers.allOrUrl, 'answer2 ', answers.pickModule);
+          answerOne = answers.allOrUrl;
+          answerTwo = answers.pickModule;
         })
+      
+        console.log('a1 ', answerOne, 'a2 ', answerTwo);
+        return {info, answerOne, answerTwo};
       })
-      
-    })
+      .then (({info, answerOne, answerTwo}) => {
+        console.log('info ', info, 'answerOne ', answerOne, 'answerTwo ', answerTwo);
+        let selectedModule;
+        info.forEach(item => {
+          if(item.name.toUpperCase() === answerTwo) {
+            selectedModule = item;
+            return selectedModule;
+          }
+        })
+        let urlList = selectedModule.multipleUrl;
+        console.log('selected multiUrl ', urlList);
 
-  function showMultiURL (item){
-      console.log('Here is the item in the show function: ', item);
-      console.log('----------------------');
-      console.log('Module: ', chalk.bold.rgb(15, 125, 250)(item.name.toUpperCase()));
-      console.log('Description: ', chalk.rgb(15, 125, 250)(item.description));
-      console.log('----------------------');
-      
-      let mainUrlArray = [];
-      mainUrlArray.push(item.mainUrl);
-      
-      let list = mainUrlArray.concat(item.multipleUrl);
-      
-      const question2 = [
-        { type: 'list', name: 'you chose', message: 'Which url would you like to delete?', choices: list },
-      ];
-      inquirer
-      .prompt(question2)
-      .then(answer => {
-        
-        let chosenUrl = Object.values(answer);
-        console.log('chosen url: ', chosenUrl[0]);
-        //TODO: send to delete lambda
-      // .catch(e => console.error('this is an error!', e))
       })
-  }
+  })
 
-  function deleteWholeRecord (item) {
-
-  }
-
-  // function getAll (something) {
-    
-  // }
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
