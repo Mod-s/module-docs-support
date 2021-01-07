@@ -36,14 +36,13 @@ program
         //   console.log(chalk.bold.rgb(10, 100, 200)(item.name));
         //   console.log(chalk.rgb(245, 66, 209)('>>>>>---------->'));
         // })
-        
+
         const question = [
           { type: 'list', name: 'you chose', message: 'select a module', choices: list },
           // { type: 'list', name: 'doc', message: 'select a url', choices: url }
         ];
         // console.log('_____is info still info_______',info);
         console.log('question after the question, but before the answer...', question)
-      
 
         inquirer
         .prompt(question)
@@ -60,6 +59,7 @@ program
             // console.log('can never have too many items:', item)
             if(item.name === chosenModule[0]){
               console.log(item)}
+
           })
         })
       })
