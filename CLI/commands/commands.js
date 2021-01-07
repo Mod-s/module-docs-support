@@ -114,20 +114,65 @@ program
   .description(chalk.rgb(10, 100, 200)('Add a new module and the link to its documentation'))
   .action(() => {
     inquirer.prompt(addQuestions).then(
-      function ({ name, description, url, multipleUrl = [], protect = false }) {
+      async function ({ name, description, url, protect = false }) {
+
+        let duplicateSwitch;
+        // console.log('BEFORE function dupSwitch: ', duplicateSwitch);
+        await duplicateModuleCheck (name)
+        .then(duplicateSwitch => {
+
+        // console.log('AFTER function dupSwitch: ', duplicateSwitch);
+
+        if(duplicateSwitch === 1) {
+          console.log('The module name that you provided already exists in our database. Please use the update command if you would like to contribute additional content for this module. Thanks!');
+          return;
+        }
+
+        let regEx = /^(https?\:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})(\/[\w]*)?[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+[\.]/g; //enter regex string here to check for valid URL
+        let regCheck = url.match(regEx); //checks to the URL string for matches to the regex pattern, if found places in an array, if none found returns null
+        
+        if(!regCheck){
+          console.log('You have entered an invalid URL. Unfortunately, a new record cannot be created without a valid URL. Please try again.');
+          return;
+        }
+
         // superagent.post(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support`) //obsolete: from before serverless deploy (save for now as a back up)
         superagent.post(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs`)
-          .send({ "name": `${name}`, "description": `${description}`, "mainUrl": `${url}`, multipleUrl, protect })
+          .send({ "name": `${name}`, "description": `${description}`, "mainUrl": "", "multipleUrl": [`${url}`], protect })
           .then(response => {
             let info = JSON.parse(response.text);
-            console.log(chalk.rgb(245, 66, 209)('Thanks! You successfully added:'));
+            console.log(chalk.rgb(245, 66, 209)('Thanks for contributing! You successfully added:'));
             console.log(chalk.rgb(10, 100, 200)(`NAME :: ${info.name}`));
-            console.log(chalk.rgb(10, 100, 200)(`DESC :: ${info.description}`));
-            console.log(chalk.rgb(10, 100, 200)(`URL :: ${info.mainUrl}`));
+            console.log(chalk.rgb(10, 100, 200)(`DESCRIPTION :: ${info.description}`));
+            console.log(chalk.rgb(10, 100, 200)(`URL :: ${info.multipleUrl[0]}`));
           })
       })
+
       .catch(e => console.error(chalk.rgb(10, 100, 200)('this is an error!'), e))
+    })
   })
+
+async function duplicateModuleCheck (name){
+  let duplicateSwitch = 0;
+    await superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
+    .then(response => {
+      let info = JSON.parse(response.text);
+      let list = info.map(item => {
+        return item.name.toUpperCase();
+      })
+      list.forEach(item => {
+        // console.log('item ', item, 'name ', name);
+        if(item === name.toUpperCase()) {
+          // console.log('inthematch check ', item, name);
+          return duplicateSwitch = 1;
+        }
+      })
+      // console.log('in function dupSwitch: ', duplicateSwitch);
+      return duplicateSwitch;
+
+  })
+  return duplicateSwitch;
+}
 
 //TODO: Create an ADMIN DELETE option so that we can clean up our database and delete protected records *******************
 
