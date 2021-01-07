@@ -144,7 +144,19 @@ program
   .description('Add a new module and the link to its documentation')
   .action(() => {
     inquirer.prompt(addQuestions).then(
-      function ({ name, description, url, protect = false }) {
+      async function ({ name, description, url, protect = false }) {
+
+        let duplicateSwitch;
+        // console.log('BEFORE function dupSwitch: ', duplicateSwitch);
+        await duplicateModuleCheck (name)
+        .then(duplicateSwitch => {
+
+        // console.log('AFTER function dupSwitch: ', duplicateSwitch);
+
+        if(duplicateSwitch === 1) {
+          console.log('The module name that you provided already exists in our database. Please use the update command if you would like to contribute additional content for this module. Thanks!');
+          return;
+        }
 
         let regEx = /^(https?\:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})(\/[\w]*)?[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+[\.]/g; //enter regex string here to check for valid URL
         let regCheck = url.match(regEx); //checks to the URL string for matches to the regex pattern, if found places in an array, if none found returns null
@@ -166,7 +178,29 @@ program
           })
       })
       .catch(e => console.error('this is an error!', e))
+    })
   })
+
+async function duplicateModuleCheck (name){
+  let duplicateSwitch = 0;
+    await superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
+    .then(response => {
+      let info = JSON.parse(response.text);
+      let list = info.map(item => {
+        return item.name.toUpperCase();
+      })
+      list.forEach(item => {
+        // console.log('item ', item, 'name ', name);
+        if(item === name.toUpperCase()) {
+          // console.log('inthematch check ', item, name);
+          return duplicateSwitch = 1;
+        }
+      })
+      // console.log('in function dupSwitch: ', duplicateSwitch);
+      return duplicateSwitch;
+  })
+  return duplicateSwitch;
+}
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
