@@ -173,49 +173,56 @@ program
   .alias('dm')
   .description(chalk.rgb(10, 100, 200)('Delete user created content'))
   // .option('-u, --url', 'deletes a chosen user created url')
+  // .option('-d, --debug', 'show all options')
+  // .option('-e, --entireMod', 'delete the entire record')
+  // .option('-o, --oneUrl', 'delete a single url in array')
   .action(() => {
-    //1) Delete record or delete url?
-    //2) Get all
-    //3) user selects
-    //4) IF delete all then remove 
-    //5) IF delete url then show list of urls
-    //6) User selects url
-    //7) Delete url console.log('url option ', program.url);
-
-
-
     
-    // let deleteChoiceArray = ['Entire Module', 'Single URL'];
+      // if(program.debug) console.log(program.opts());
+      // if(program.entireMod) 
 
-    // const questionAllorUrl = [{
-    //   type: 'list',
-    //   name: 'delete-choice',
-    //   message: 'Delete an entire module or a single URL?',
-    //   choices: deleteChoiceArray
-    // },
-    // { 
-    //   type: 'list', name: 'you chose', message: 'Select a module to delete', when: (answer) => {answer.delete-choice === 'Entire Module' }, choices: list 
-    // },
-    // ];
+      //1) Delete record or delete url?
+      //2) Get all
+      //3) user selects
+      //4) IF delete all then remove 
+      //5) IF delete url then show list of urls
+      //6) User selects url
+      //7) Delete url console.log('url option ', program.url);
 
-    // // inquirer.prompt(prompts);
-    // inquirer
-    // .prompt(questionAllorUrl)
-    // .then(answer2 => {
-    //     console.log('answer2: ', answer2);
-    //     let chosenDelete = Object.values(answer2);
-    //     return chosenDelete;
-    // })
-// console.log('delete choice ', chosenDelete); 
-    // superagent.get('https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/') //obsolete: route prior to serverless deploy (save for now as backup)
-    superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
+
+
+      
+      // let deleteChoiceArray = ['Entire Module', 'Single URL'];
+
+      // const questionAllorUrl = [{
+      //   type: 'list',
+      //   name: 'delete-choice',
+      //   message: 'Delete an entire module or a single URL?',
+      //   choices: deleteChoiceArray
+      // },
+      // { 
+      //   type: 'list', name: 'you chose', message: 'Select a module to delete', when: (answer) => {answer.delete-choice === 'Entire Module' }, choices: list 
+      // },
+      // ];
+
+      // // inquirer.prompt(prompts);
+      // inquirer
+      // .prompt(questionAllorUrl)
+      // .then(answer2 => {
+      //     console.log('answer2: ', answer2);
+      //     let chosenDelete = Object.values(answer2);
+      //     return chosenDelete;
+      // })
+      // console.log('delete choice ', chosenDelete); 
+      // superagent.get('https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/') //obsolete: route prior to serverless deploy (save for now as backup)
+        superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
     
       .then(response => {
         let info = JSON.parse(response.text);
-        let list = info.map(item => {
+        let listOfMods = info.map(item => {
           return item.name.toUpperCase();
         })
-        list.sort();
+        listOfMods.sort();
         // console.log('list ', list);
 
         // const question = [
@@ -224,39 +231,122 @@ program
         
         // when: (answers) => answers.databasetype === 'mongoDB'
 
-        let deleteChoiceArray = ['Entire Module', 'Single URL'];
+        // let deleteChoiceArray = ['Entire Module', 'Single URL'];
 
         const questionAllorUrl = [{
           type: 'list',
           name: 'deleteChoice',
           message: 'Delete an entire module or a single URL?',
-          choices: deleteChoiceArray
-        },
-        { 
-          type: 'list', name: 'you chose', message: 'Select a module to delete', when: (answer) => {answer.deleteChoice === 'Entire Module' }, choices: list 
-        },
-        ];
+          choices: ['Entire Module', 'Single URL']
+          // choices: deleteChoiceArray
+        }, { 
+          type: 'list', name: 'youChose', message: 'Select a module to delete', choices: listOfMods, when: (answer) => answer.deleteChoice === 'Entire Module' 
+        }, { 
+          type: 'list', name: 'youChose', message: 'Select a module to delete a URL from', choices: listOfMods, when: (answer) => answer.deleteChoice === 'Single URL' 
+        }]
 
-    // inquirer.prompt(prompts);
-    inquirer
-    .prompt(questionAllorUrl[0])
-    .then(answer2 => {
-        console.log('answer2: ', answer2);
-        let chosenDelete = Object.values(answer2);
-        return chosenDelete;
-    })
+          // inquirer.prompt(prompts);
+          inquirer
+          .prompt(questionAllorUrl)
+          .then(answer => {
+            let chosenDelete = Object.values(answer);
+            console.log('answer: ', answer);
+            console.log('chosenDelete:', chosenDelete)
+            // console.log('info: ', info);
+            // return chosenDelete;
+            if(chosenDelete[0] === 'Entire Module'){
+              console.log('you chose entire module', chosenDelete[1])
+              // console.log('entire info', info)
 
-        inquirer
-        .prompt(questionAllorUrl[1])
-        .then(answer => {
-          let chosenModule = Object.values(answer);
-          let tempChoice;
-          info.forEach(item=>{
-            let matchCheck = item.name.toUpperCase();
-            if(matchCheck === chosenModule[0]){
-              tempChoice = item;
+              // .then(res => {
+              //   console.log('module', res.module);
+                let id;
+                info.forEach(item => {
+                  if (item.name.toUpperCase() === chosenDelete[1]) {
+                    console.log('in here??', item.id);
+                    return id = item.id
+                  }
+                })
+                superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
+                  .send({ "deleteRecord": 1 })
+                  .then(()=>{
+                    console.log('Thanks for deleting that outdated module');
+                  })
+                  .catch((e)=>{
+                    console.log('Thanks for deleting that outdated module');
+                  })
             }
+
+            
+            if(chosenDelete[0] === 'Single URL'){
+              console.log('you chose single url', chosenDelete[1])
+              // console.log('entire info', info)
+              
+              
+              async function deleteSingleUrl(info, answerTwo){ //info is the full data, answerOne is not needed, answerTwo is the module to delete the url from
+                let selectedModule;
+                
+                info.forEach(item => {
+                  if(item.name.toUpperCase() === answerTwo) {
+                    return selectedModule = item;
+                    // return selectedModule;
+                  }
+                })
+                
+                let urlList = selectedModule.multipleUrl; // this is the multiUrl array
+                // console.log('selected multiUrl ', urlList);
+                if(urlList.length < 1) { //if it's empty break out
+                  console.log('This module does not currently have any user contributed URLs.');
+                  return;
+                }
+                const deleteQuestionsTwo = [
+                  {
+                    type: 'list',
+                    name: 'pickUrl',
+                    message: 'Select the URL to delete: ',
+                    choices: urlList
+                  }
+                ];
+
+                await inquirer
+                .prompt(deleteQuestionsTwo)
+                .then(answers => {
+                  // console.log('deleteQuestionsTwo answers: ', answers);
+                  // console.log('answer1: ', answers.pickUrl);
+                  let answerUrlIdx = answers.pickUrl;
+                  // console.log('selectedModule ', selectedModule);
+                  let deleteUrlIdx = selectedModule.multipleUrl.indexOf(answerUrlIdx);
+                  deleteUrl(selectedModule, deleteUrlIdx);
+                })
+              }
+
+              deleteSingleUrl(info, chosenDelete[1]);
+              }
+              async function deleteUrl(module, urlIdx){
+              let id = module.id;
+              // console.log ('id ', id, 'idx ', urlIdx);
+              await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
+                    .send(`{ "deleteRecord": 0, "urlToDelete": ${urlIdx} }`)
+                    .then(() => {
+                      console.log('Thanks for improving the content of our shared database!')
+                    })
+              }
+
+            })
           })
+    
+  })
+        // inquirer
+        // .prompt(questionAllorUrl[1])
+        // .then(answer => {
+        //   let chosenModule = Object.values(answer);
+        //   let tempChoice;
+        //   info.forEach(item=>{
+        //     let matchCheck = item.name.toUpperCase();
+        //     if(matchCheck === chosenModule[0]){
+        //       tempChoice = item;
+        //     }
+        //   })
           
           // console.log('program.url ', program.url);
 
@@ -265,10 +355,7 @@ program
           // } else {
           //   deleteWholeRecord(tempChoice);
           // }
-        })
-      })
-      
-    })
+    // })
 
   function showMultiURL (item){
       console.log('Here is the item in the show function: ', item);
@@ -311,38 +398,43 @@ program
 // TODO: Return the response from lambda to the user ******************************************************
 
 program
-
-  .command('add-doc')
-  .arguments('<module>', '<url>')
-  .alias('ad')
-  .description('Add a URL to a module')
-  .action(function (module, url) {
-    // superagent.get('https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/') //obsolete: from before serverless deploy (save for now as backup)
+  .command('update')
+  .alias('u')
+  .description(chalk.rgb(10, 100, 200)('Add the URL to helpful documentation to an existing module we have listed'))
+  .action(() => {
+    let list;
     superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
-      .then(results => {
-        let info = JSON.parse(results.text);
-        let idToUpdate;
-        info.forEach(item => {
-          if (item.name === module) {
-            idToUpdate = item;
-          }
+      .then(response => {
+        let info = JSON.parse(response.text);
+        list = info.map(item => {
+          return item.name.toUpperCase();
         })
-        return { idToUpdate, url };
-      })
-      .then(information => {
-        console.log('INFORMATION', information.idToUpdate);
-        let newURL = url.args[1];
-        // superagent.put(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/${information.id}`) //obsolete: from before serverless deploy (save for now as backup)
-        superagent.put(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${information.id}`)
-        
-          .send({ "name": `${information.name}`, "description": `${information.description}`, "mainUrl": `${information.url}`, "multipleUrl": `${information.multipleUrl}`, "protect": `${information.protect}` })
-          .then(res => {
-            //TODO: Capture response and display the updated record
-            console.log('Response from Update Lambda ', res);
+        list.sort();
+        const addDoc = [{ type: 'list', name: 'choice', message: 'add a URL for documentation you found useful', choices: list }];
+        const addUrl = [{ type: 'input', name: 'url', message: 'paste the url' }];
+        inquirer
+          .prompt(addDoc)
+          .then(answer => {
+            info.forEach(item => {
+              if (item.name.toUpperCase() === answer.choice) {
+                let idUpdate = item.id;
+                inquirer
+                  .prompt(addUrl)
+                  .then(address => {
+                    let urlSend = address.url;
+                    superagent.put(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${idUpdate}`)
+                      .send({ "updateUrl": [`${urlSend}`] })
+                      .then((response) => {
+                        ///::::need logic to make sure a valid url is being given,currently saving BLANK::::::
+                        console.log(response.text);
+                        let chikkin = JSON.parse(response.text);
+                        console.log('Thank you!');
+                      })
+                  })
+              }
+            })
           })
       })
-
-      .catch(e => console.error('this is an error!', e))
   })
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
