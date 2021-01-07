@@ -22,8 +22,7 @@
     "dynamoose": "^2.5.0",
     "inquirer": "^7.3.3",
     "jest-dynalite": "^3.2.5",
+    "link": "^0.1.5",
     "uuid": "^8.3.2"
   }
-
 }
-
