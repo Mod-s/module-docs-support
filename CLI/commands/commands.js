@@ -220,7 +220,7 @@ program
         console.log('a1 ', answerOne, 'a2 ', answerTwo);
         return {info, answerOne, answerTwo};
       })
-      .then (({info, answerOne, answerTwo}) => {
+      .then (async ({info, answerOne, answerTwo}) => {
         console.log('info ', info, 'answerOne ', answerOne, 'answerTwo ', answerTwo);
         let selectedModule;
         info.forEach(item => {
@@ -232,9 +232,48 @@ program
         let urlList = selectedModule.multipleUrl;
         console.log('selected multiUrl ', urlList);
 
+        const deleteQuestionsTwo = [
+          {
+            type: 'list',
+            name: 'pickUrl',
+            message: 'Select the URL to delete: ',
+            choices: urlList
+          }
+        ]
+        await inquirer.prompt(deleteQuestionsTwo).then(answers => {
+          
+          console.log('deleteQuestionsTwo answers: ', answers);
+          console.log('answer1: ', answers.pickUrl);
+          let answerUrlIdx = answers.pickUrl;
+          console.log('selectedModule ', selectedModule);
+
+          let deleteUrlIdx = selectedModule.multipleUrl.indexOf(answerUrlIdx);
+
+          deleteUrl(selectedModule, deleteUrlIdx);
+
+        })
+
       })
   })
 
+  async function deleteUrl(module, urlIdx){
+
+    let id = module.id;
+    console.log ('id ', id, 'idx ', urlIdx);
+
+    await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
+          .send(`{ "deleteRecord": 0, "urlToDelete": ${urlIdx} }`)
+          .then(response => {
+            let info = JSON.parse(response.text);
+            
+          })
+      
+      // .catch(e => console.error('this is an error!', e))
+  }
+
+  function deleteRecord(module){
+
+  }
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
