@@ -8,6 +8,7 @@
 
 [inquirer](https://medium.com/jspoint/making-cli-app-with-ease-using-commander-js-and-inquirer-js-f3bbd52977ac)
 [Build a CLI Application Video](https://www.youtube.com/watch?v=v2GKt39-LPA)
+[CI/CD on GitLab]()
 
 ## Description 
 

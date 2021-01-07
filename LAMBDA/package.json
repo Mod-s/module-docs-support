@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "## Authors: Ricardo Barcenas, Mariko Alvarado, Stacy Burris, Simon Panek",
   "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
   "scripts": {
     "test": "jest --coverage"
   },
@@ -18,12 +21,15 @@
   },
   "homepage": "https://github.com/Mod-s/module-docs-support#readme",
   "dependencies": {
-    "commander": "^6.2.1",
+    "@shelf/jest-dynamodb": "^1.7.0",
+    "jest": "^26.6.3",
+    "superagent": "^6.1.0",
     "dynamoose": "^2.5.0",
+    "commander": "^6.2.1",
     "inquirer": "^7.3.3",
-    "jest-dynalite": "^3.2.5",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jest-dynalite": "^3.2.5"
   }
-
 }
-
