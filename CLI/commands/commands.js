@@ -211,17 +211,25 @@ program
           }
         ]
         await inquirer.prompt(deleteQuestions).then(answers => {
-          console.log('deleteQuestions answers: ', answers);
-          console.log('answer1: ', answers.allOrUrl, 'answer2 ', answers.pickModule);
+          // console.log('deleteQuestions answers: ', answers);
+          //console.log('answer1: ', answers.allOrUrl, 'answer2 ', answers.pickModule);
           answerOne = answers.allOrUrl;
           answerTwo = answers.pickModule;
         })
+
+        // if(answerOne === 1) { // this section is not needed for deleting a single url
+        //   deleteRecord(answerTwo);
+        //   return;
+        // }
       
-        console.log('a1 ', answerOne, 'a2 ', answerTwo);
+        // console.log('a1 ', answerOne, 'a2 ', answerTwo);
         return {info, answerOne, answerTwo};
       })
-      .then (async ({info, answerOne, answerTwo}) => {
-        console.log('info ', info, 'answerOne ', answerOne, 'answerTwo ', answerTwo);
+
+      //-----------------------------///////////////////////////////url delete below here//////////////////////////////////////-------------------------------
+
+      .then (async ({info, answerOne, answerTwo}) => { //info is the full data, answerOne is not needed, answerTwo is the module to delete the url from
+        // console.log('info ', info, 'answerOne ', answerOne, 'answerTwo ', answerTwo);
         let selectedModule;
         info.forEach(item => {
           if(item.name.toUpperCase() === answerTwo) {
@@ -230,7 +238,12 @@ program
           }
         })
         let urlList = selectedModule.multipleUrl;
-        console.log('selected multiUrl ', urlList);
+        // console.log('selected multiUrl ', urlList);
+
+        if(urlList.length < 1) {
+          console.log('This module does not currently have any user contributed URLs.');
+          return;
+        }
 
         const deleteQuestionsTwo = [
           {
@@ -242,10 +255,10 @@ program
         ]
         await inquirer.prompt(deleteQuestionsTwo).then(answers => {
           
-          console.log('deleteQuestionsTwo answers: ', answers);
-          console.log('answer1: ', answers.pickUrl);
+          // console.log('deleteQuestionsTwo answers: ', answers);
+          // console.log('answer1: ', answers.pickUrl);
           let answerUrlIdx = answers.pickUrl;
-          console.log('selectedModule ', selectedModule);
+          // console.log('selectedModule ', selectedModule);
 
           let deleteUrlIdx = selectedModule.multipleUrl.indexOf(answerUrlIdx);
 
@@ -259,21 +272,20 @@ program
   async function deleteUrl(module, urlIdx){
 
     let id = module.id;
-    console.log ('id ', id, 'idx ', urlIdx);
+    // console.log ('id ', id, 'idx ', urlIdx);
 
     await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
           .send(`{ "deleteRecord": 0, "urlToDelete": ${urlIdx} }`)
-          .then(response => {
-            let info = JSON.parse(response.text);
-            
+          .then(() => {
+            console.log('Thanks for improving the content of our shared database!')
           })
-      
-      // .catch(e => console.error('this is an error!', e))
   }
 
-  function deleteRecord(module){
+  //-----------------------------///////////////////////////////url delete above here//////////////////////////////////////-------------------------------
 
-  }
+  // function deleteRecord(module){ //not needed for delete one url
+  //   console.log('module to delete ', module);
+  // }
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
