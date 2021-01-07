@@ -260,24 +260,22 @@ program
 
               // .then(res => {
               //   console.log('module', res.module);
-
+                let id;
                 info.forEach(item => {
                   if (item.name.toUpperCase() === chosenDelete[1]) {
                     console.log('in here??', item.id);
-                    superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${item.id}`)
-                      .send({ "deleteRecord": 1, "urlToDelete": 0 })
-                      console.log('Thanks for deleting that outdated module');
-                                  
-                      // .then(response => {
-                      //   let chikkin = JSON.parse(response);
-                      //   console.log(chikkin);
-                      // })
+                    return id = item.id
                   }
                 })
-              // })
+                superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
+                  .send({ "deleteRecord": 1 })
+                  .then(()=>{
+                    console.log('Thanks for deleting that outdated module');
+                  })
+                  .catch((e)=>{
+                    console.log('Thanks for deleting that outdated module');
+                  })
             }
-
-
 
             
             if(chosenDelete[0] === 'Single URL'){
