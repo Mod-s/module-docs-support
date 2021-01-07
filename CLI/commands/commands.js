@@ -422,14 +422,27 @@ program
                   .prompt(addUrl)
                   .then(address => {
                     let urlSend = address.url;
-                    superagent.put(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${idUpdate}`)
-                      .send({ "updateUrl": [`${urlSend}`] })
-                      .then((response) => {
-                        ///::::need logic to make sure a valid url is being given,currently saving BLANK::::::
-                        console.log(response.text);
-                        let chikkin = JSON.parse(response.text);
-                        console.log('Thank you!');
-                      })
+                    console.log('urlSend ', urlSend);
+                    let regEx = /^(https?\:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})(\/[\w]*)?[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+[\.]/g; //enter regex string here
+                    let regCheck = urlSend.match(regEx); //checks to the URL string for matches to the regex pattern, if found places in an array, if none found returns null
+                    // if(!regCheck){
+                    //   console.log('You have entered and invalid URL. Please try again using a similar format to the following: http://www.google.com');
+                    // }
+                    console.log('regCheck ', regCheck, 'typeof ', typeof(regCheck));
+                    // regCheck.push('easterEgg'); //push in an arbitrary value so that regCheck will not be null
+                    if(regCheck) {
+                      superagent.put(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${idUpdate}`)
+                        .send({ "updateUrl": [`${urlSend}`] })
+                        .then((response) => {
+                          ///::::need logic to make sure a valid url is being given,currently saving BLANK::::::
+                          console.log(response.text);
+                          let chikkin = JSON.parse(response.text);
+                          console.log('Thank you!');
+                        })
+                    } else {
+                      console.log('You have provided an invalid URL. Please try again.');
+                    }
+
                   })
               }
             })
