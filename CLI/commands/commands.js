@@ -398,38 +398,43 @@ program
 // TODO: Return the response from lambda to the user ******************************************************
 
 program
-
-  .command('add-doc')
-  .arguments('<module>', '<url>')
-  .alias('ad')
-  .description('Add a URL to a module')
-  .action(function (module, url) {
-    // superagent.get('https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/') //obsolete: from before serverless deploy (save for now as backup)
+  .command('update')
+  .alias('u')
+  .description(chalk.rgb(10, 100, 200)('Add the URL to helpful documentation to an existing module we have listed'))
+  .action(() => {
+    let list;
     superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
-      .then(results => {
-        let info = JSON.parse(results.text);
-        let idToUpdate;
-        info.forEach(item => {
-          if (item.name === module) {
-            idToUpdate = item;
-          }
+      .then(response => {
+        let info = JSON.parse(response.text);
+        list = info.map(item => {
+          return item.name.toUpperCase();
         })
-        return { idToUpdate, url };
-      })
-      .then(information => {
-        console.log('INFORMATION', information.idToUpdate);
-        let newURL = url.args[1];
-        // superagent.put(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/${information.id}`) //obsolete: from before serverless deploy (save for now as backup)
-        superagent.put(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${information.id}`)
-        
-          .send({ "name": `${information.name}`, "description": `${information.description}`, "mainUrl": `${information.url}`, "multipleUrl": `${information.multipleUrl}`, "protect": `${information.protect}` })
-          .then(res => {
-            //TODO: Capture response and display the updated record
-            console.log('Response from Update Lambda ', res);
+        list.sort();
+        const addDoc = [{ type: 'list', name: 'choice', message: 'add a URL for documentation you found useful', choices: list }];
+        const addUrl = [{ type: 'input', name: 'url', message: 'paste the url' }];
+        inquirer
+          .prompt(addDoc)
+          .then(answer => {
+            info.forEach(item => {
+              if (item.name.toUpperCase() === answer.choice) {
+                let idUpdate = item.id;
+                inquirer
+                  .prompt(addUrl)
+                  .then(address => {
+                    let urlSend = address.url;
+                    superagent.put(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${idUpdate}`)
+                      .send({ "updateUrl": [`${urlSend}`] })
+                      .then((response) => {
+                        ///::::need logic to make sure a valid url is being given,currently saving BLANK::::::
+                        console.log(response.text);
+                        let chikkin = JSON.parse(response.text);
+                        console.log('Thank you!');
+                      })
+                  })
+              }
+            })
           })
       })
-
-      .catch(e => console.error('this is an error!', e))
   })
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
