@@ -16,6 +16,7 @@
     "commander": "^6.2.1",
     "express": "^4.17.1",
     "inquirer": "^7.3.3",
+    "open": "^7.3.0",
     "superagent": "^6.1.0"
   }
 }

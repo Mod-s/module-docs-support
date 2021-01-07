@@ -5,13 +5,12 @@
 
 'use strict';
 
+const open = require ('open');
 const superagent = require('superagent');
 const program = require('commander');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const { description } = require('commander');
-//TODO: Does the dependency below need to be here or was it auto added?*************************************
-//const { listMods } = require('./prompts');
 program
   .version('0.0.1')
   .description('Node Module Documents')
@@ -19,94 +18,73 @@ program
 //RETRIEVE ALL MODULES AVAILABLE:::::::::::::::::
 
 program
-  .command('see-modules') //TODO: can we change this to "list"? ********************************************
-  .alias('see') //TODO: can we change this to "l"? *********************************************************
+  .command('list') 
+  .alias('l') 
   .description('Find the module to get started')
   .action(function () {
     // superagent.get('https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/') //obsolete: route prior to serverless deploy (save for now as backup)
     superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
     
-
       .then(response => {
         let info = JSON.parse(response.text);
-        // console.log('parsed info',info);
         let list = info.map(item => {
           return item.name.toUpperCase();
         })
         list.sort();
 
-        // info.forEach(item => {
-        //   console.log(chalk.bold.rgb(10, 100, 200)(item.name));
-        //   console.log(chalk.rgb(245, 66, 209)('>>>>>---------->'));
-        // })
-
         const question = [
           { type: 'list', name: 'you chose', message: 'Select a module', choices: list },
-          // { type: 'list', name: 'doc', message: 'select a url', choices: url }
         ];
-        // console.log('_____is info still info_______',info);
-        // console.log('question after the question, but before the answer...', question)
 
         inquirer
         .prompt(question)
         .then(answer => {
-          // console.log('we did not lose info', info);
-          //TO DO:
-          //TURN RESPONSE INTO MODULE OBJECT
-          //CHOICE TO OPEN(NAME AND URL) OR SEE MORE(POPS DESCRIPTION OR WHOLE OBJECT) 
-          // console.log('what is the ansWer?', answer);
           let chosenModule = Object.values(answer);
           let tempChoice;
-          // console.log('I chose you....', chosenModule[0]);
           info.forEach(item=>{
-            // console.log('can never have too many items:', item.name)
             let matchCheck = item.name.toUpperCase();
             if(matchCheck === chosenModule[0]){
               tempChoice = item;
-              // console.log('this is the chosen object: ', item)}
-              // console.log(item.name.toUpperCase());
-              // console.log('Documentation URL: ', item.mainUrl);
-              // console.log('Description: ', item.description);
             }
           })
           showMainURL(tempChoice);
         })
-        
-        
       })
       
-      // .catch(e => console.error('this is an error!', e))
     })
     
-function showMainURL (item){
-  console.log('Here is the item in the show function: ', item);
-  console.log('----------------------');
-  console.log('Module: ', chalk.bold.rgb(15, 125, 250)(item.name.toUpperCase()));
-  console.log('Description: ', chalk.bold.rgb(15, 125, 250)(item.description));
-  console.log('----------------------');
-
-  let mainUrlArray = [];
-  mainUrlArray.push(item.mainUrl);
-
-  let list = mainUrlArray.concat(item.multipleUrl);
-
-  const question2 = [
-    { type: 'list', name: 'you chose', message: 'Which doc would you like to open?', choices: list },
-  ];
-    inquirer
-    .prompt(question2)
-    .then(answer => {
-
-      let chosenUrl = Object.values(answer);
-      console.log('chosen url: ', chosenUrl);
-
-      //TODO: auto open the selected url
+    function showMainURL (item){
+      //console.log('Here is the item in the show function: ', item);
+      console.log('----------------------');
+      console.log('Module: ', chalk.bold.rgb(15, 125, 250)(item.name.toUpperCase()));
+      console.log('Description: ', chalk.rgb(15, 125, 250)(item.description));
+      console.log('----------------------');
       
-
-      console.log ('xdg-open www.google.com');
+      let mainUrlArray = [];
+      mainUrlArray.push(item.mainUrl);
       
-    })
-}
+      let list = mainUrlArray.concat(item.multipleUrl);
+      
+      const question2 = [
+        { type: 'list', name: 'you chose', message: 'Which doc would you like to open?', choices: list },
+      ];
+      inquirer
+      .prompt(question2)
+      .then(answer => {
+        
+        let chosenUrl = Object.values(answer);
+        console.log('chosen url: ', chosenUrl[0]);
+        
+        
+        
+        (async () => {
+          await open(chosenUrl[0]); //opens the selected url in a default browser
+        })();
+        
+        console.log('-----------Thanks for playing.--------------');
+      })
+      // .catch(e => console.error('this is an error!', e))
+    }
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 // SELECT SPECIFIC MODULE:::::::::::::::::::::::::::::::
@@ -138,6 +116,7 @@ function showMainURL (item){
 //ADD MODULE::::::::::::::::::::::::::::::::::
 //TODO: Send the following to the create lambda: { "name": "moduleName", "mainUrl": "www.primaryAddress.com", "multipleUrl": ["www.extraOne.com", "www.extraTwo.com"], "description": "describeTheModuleHere", "protect": false } **********************************
 //TODO: Receive the response from the lambda and output the new record **********************************************************
+//TODO: Make sure user supplies a valid full url, provide an example
 
 // program
 
@@ -163,29 +142,28 @@ const addQuestions = [
   {
     type: 'input',
     name: 'name',
-    message: 'Enter the Node Module Name: '
+    message: 'Enter the Module Name: '
   },
   {
     type: 'input',
     name: 'description',
-    message: 'Enter a description for the new Node Module: '
+    message: 'Enter a description for the new Module: '
   },
   {
     type: 'input',
     name: 'url',
-    message: 'Enter the URL for the Node Module documentation: '
+    message: 'Enter the full URL (Example: https://www.justlikethis.com/) to access the Module documentation: '
   }
 ]
 
 program
 
-  .command('add-module')
-  .alias('am')
-  .description(`Add a new node module and the link to it's documentation`)
+  .command('contribute')
+  .alias('c')
+  .description('Add a new module and the link to its documentation')
   .action(() => {
     inquirer.prompt(addQuestions).then(
       function ({ name, description, url, multipleUrl = [], protect = false }) {
-        //console.log('name: ', name, 'description: ', description, 'url: ', url);
         // superagent.post(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support`) //obsolete: from before serverless deploy (save for now as a back up)
         superagent.post(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs`)
           .send({ "name": `${name}`, "description": `${description}`, "mainUrl": `${url}`, multipleUrl, protect })
@@ -198,7 +176,6 @@ program
           })
       })
       .catch(e => console.error('this is an error!', e))
-
   })
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -209,20 +186,92 @@ program
 //TODO: Return lambda response to user ************************************************************************************
 //TODO: Create an ADMIN DELETE option so that we can clean up our database and delete protected records *******************
 
-// program
-//   .command('delete-module')
-//   .arguments('<module>')
-//   .alias('delete')
-//   .description('Select a module remove from the DB')
-//   .action(function (module) {
-//     superagent.delete(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/${moduleName}`)
-//       .then(response => {
-//         let info = JSON.parse(response.text);
-//         console.log(info)
-//         })
-//       })
-//       .catch(e => console.error('this is an error!', e))
+program
+  .command('delete-module')
+  // .argument('')
+  .alias('dm')
+  .description('Delete user created content')
+  .option('-u, --url', 'deletes a chosen user created url')
+  .action(function (options) {
+    //1) Delete record or delete url?
+    //2) Get all
+    //3) user selects
+    //4) IF delete all then remove 
+    //5) IF delete url then show list of urls
+    //6) User selects url
+    //7) Delete url console.log('url option ', program.url);
 
+    // superagent.get('https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/') //obsolete: route prior to serverless deploy (save for now as backup)
+    superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
+    
+      .then(response => {
+        let info = JSON.parse(response.text);
+        let list = info.map(item => {
+          return item.name.toUpperCase();
+        })
+        list.sort();
+
+        const question = [
+          { type: 'list', name: 'you chose', message: 'Select a module to delete', choices: list },
+        ];
+
+        inquirer
+        .prompt(question)
+        .then(answer => {
+          let chosenModule = Object.values(answer);
+          let tempChoice;
+          info.forEach(item=>{
+            let matchCheck = item.name.toUpperCase();
+            if(matchCheck === chosenModule[0]){
+              tempChoice = item;
+            }
+          })
+          
+          console.log('program.url ', program.url);
+
+          if (options.url){
+            showMultiURL(tempChoice);
+          } else {
+            deleteWholeRecord(tempChoice);
+          }
+        })
+      })
+      
+    })
+
+  function showMultiURL (item){
+      console.log('Here is the item in the show function: ', item);
+      console.log('----------------------');
+      console.log('Module: ', chalk.bold.rgb(15, 125, 250)(item.name.toUpperCase()));
+      console.log('Description: ', chalk.rgb(15, 125, 250)(item.description));
+      console.log('----------------------');
+      
+      let mainUrlArray = [];
+      mainUrlArray.push(item.mainUrl);
+      
+      let list = mainUrlArray.concat(item.multipleUrl);
+      
+      const question2 = [
+        { type: 'list', name: 'you chose', message: 'Which url would you like to delete?', choices: list },
+      ];
+      inquirer
+      .prompt(question2)
+      .then(answer => {
+        
+        let chosenUrl = Object.values(answer);
+        console.log('chosen url: ', chosenUrl[0]);
+        //TODO: send to delete lambda
+      // .catch(e => console.error('this is an error!', e))
+      })
+  }
+
+  function deleteWholeRecord (item) {
+
+  }
+
+  // function getAll (something) {
+    
+  // }
 
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
