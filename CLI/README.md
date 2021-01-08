@@ -41,12 +41,6 @@ The mod-support database was initially populated with 60+ frequently used module
 
 ---
 
-### Command Line Interface
-
-![mod-support](./assets/mod-support.png)
-
----
-
 ### Contributors
 
 - **Mariko Alvarado**
