@@ -30,13 +30,6 @@ Updated 1/6/21 16:10
   PUT - https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/{id}
   DELETE - https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/{id}
 
-Obsolete: -------------------------------------
-- POST: `https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support` Creates a new record. Must send `{ "name": "module name", "multipleUrl": ["additional urls"], "description": "description of module", "protect": true or false }` in the body of the request to the lambda function
-- GET: `https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/` Returns a list of all node module records
-- GET: `https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/{id}` Returns a single node module record
-- PUT: `https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/{id}` Updates a record. Must send `{ "updateUrl": ["additional urls"] }` in the body of the request to the lambda function
-- DELETE: `https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support/{id}` Deletes a record or deletes a user-created url. Must send `{ "deleteRecord": 0 or 1, "urlToDelete": (idx of user-created url to delete)  }` in the body of the request to the lambda function
-----------------------------------------------
 
 ## CLI Commands
 
