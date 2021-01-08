@@ -6,13 +6,13 @@
 
 ### Description
 
-Module Documents Support (`mod-s`) is a simple Command Line Interface that provides easy terminal access to development tool documentation. Documentation links are stored in a publicly accessible database. Users are encouraged to contribute and curate the public repository of module documentation.
+Module Documents Support (`mod-support`) is a simple Command Line Interface that provides easy terminal access to development tool documentation. Documentation links are stored in a publicly accessible database. Users are encouraged to contribute and curate the public repository of module documentation.
 
 ---
 
 ## Content
 
-The mod-s database was initially populated with 60+ frequently used modules and links to their primary documentation. This content is protected from deletion. All other content is user generated and user editable. Please use your best professional judgment when making updates to the content of this public resource.
+The mod-support database was initially populated with 60+ frequently used modules and links to their primary documentation. This content is protected from deletion. All other content is user generated and user editable. Please use your best professional judgment when making updates to the content of this public resource.
 
 ---
 
@@ -29,22 +29,21 @@ The mod-s database was initially populated with 60+ frequently used modules and 
 | **Command** | **Description** |
 | --- | --- |
 | `mod-support` | Access the CLI overview |
-| `mod-s` | Shorthand command for CLI overview |
-| `mod-s list` | Lists all modules currently in the database |
-| `mod-s l` | Shorthand command for list |
-| `mod-s contribute` | Allows the user to contribute a new module to the database |
-| `mod-s c` | Shorthand command for contribute |
-| `mod-s update` | Allows the user to add an additional document URL to an existing module |
-| `mod-s u` | Shorthand command for update |
-| `mod-s delete` | Allows the user to delete community generated content |
-| `mod-s d` | Shorthand command for delete |
+| `mod-support list` | Lists all modules currently in the database |
+| `mod-support l` | Shorthand command for list |
+| `mod-support contribute` | Allows the user to contribute a new module to the database |
+| `mod-support c` | Shorthand command for contribute |
+| `mod-support update` | Allows the user to add an additional document URL to an existing module |
+| `mod-support u` | Shorthand command for update |
+| `mod-support delete` | Allows the user to delete community generated content |
+| `mod-support d` | Shorthand command for delete |
 | `-h` | Added to any other command will provide help for the chosen command |
 
 ---
 
 ### Command Line Interface
 
-<!-- Provide a screen shot of the CLI overview -->
+![mod-support](./assets/mod-support.png)
 
 ---
 
