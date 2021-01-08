@@ -231,7 +231,7 @@ program
                     console.log(chalk.rgb(10, 100, 200)('Thanks for deleting that outdated module'));
                   })
                   .catch((e)=>{
-                    console.log(chalk.rgb(10, 100, 200)('Thanks for deleting that outdated module'));
+                    console.log(chalk.rgb(10, 100, 200)('This module is protected and cannot be deleted, only user created content can be deleted'));
                   })
             }
             
