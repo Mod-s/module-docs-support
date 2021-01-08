@@ -215,28 +215,32 @@ program
 
         inquirer
           .prompt(questionAllorUrl)
-          .then(answer => {
-            let chosenDelete = Object.values(answer);
 
-            if (chosenDelete[0] === 'Entire Module') {
-              let id;
-              info.forEach(item => {
-                if (item.name.toUpperCase() === chosenDelete[1]) {
-                  return id = item.id
-                }
-              })
-              superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
-                .send({ "deleteRecord": 1 })
-                .then(() => {
-                  console.log(chalk.rgb(10, 100, 200)('Thanks for deleting that outdated module'));
-                })
-                .catch((e) => {
-                  console.log(chalk.rgb(247, 180, 23)('This module is protected and cannot be deleted, only user created content can be deleted'));
+          .then((answer) => {
+            let chosenDelete = Object.values(answer);           
+            if(chosenDelete[0] === 'Entire Module'){
+                let id;
+                info.forEach(async(item) => {
+                  if (item.name.toUpperCase() === chosenDelete[1] && item.protect !== true){
+                    id = item.id
+
+                    await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
+                    .send({ "deleteRecord": 1, "urlToDelete": 0 })
+                    .then (()=>{
+                      console.log(chalk.rgb(10, 100, 200)('Thanks for deleting that outdated module'));
+                    })
+                    .catch(()=>{
+                      console.log(chalk.rgb(10, 100, 200)('Thanks for deleting that outdated module'));
+                    })
+                  }else if(item.name.toUpperCase() === chosenDelete[1] && item.protect === true){
+                    console.log(chalk.rgb(247, 180, 23)('This module is protected and cannot be deleted, only user created content can be deleted'));
+                  }
                 })
             }
+                
+            if(chosenDelete[0] === 'Single URL'){
+              async function deleteSingleUrl(info, answerTwo){ //info is the full data, answerOne is not needed, answerTwo is the module to delete the url from
 
-            if (chosenDelete[0] === 'Single URL') {
-              async function deleteSingleUrl(info, answerTwo) { //info is the full data, answerOne is not needed, answerTwo is the module to delete the url from
                 let selectedModule;
 
                 info.forEach(item => {
