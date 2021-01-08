@@ -37,7 +37,7 @@ exports.handler = async (event) => {
     if (deleteRecord === 1 && protect === true) { //check to see if user wants to delete the entire record and if it is protect
       return {
         statusCode: 403,
-        body: 'This record is protect. User may only delete user created content. If you would like to delete a user created URL, please try again, but do not attempt to delete the entire record.' //return a message indicating that deletion of a protect record is not allowed
+        body: 'This record is protected. User may only delete user created content. If you would like to delete a user created URL, please try again, but do not attempt to delete the entire record.' //return a message indicating that deletion of a protect record is not allowed
       }
     }
 
