@@ -22,8 +22,6 @@ The mod-s database was initially populated with 60+ frequently used modules and 
   - Run the following command in the terminal: $`npm install -g mod-support`
     - `-g` Flag is used to install globally which will give access from any terminal location.
 
-- [Access mod-support via NPM](https://www.npmjs.com/package/mod-support)
-
 ---
 
 ## Usage
