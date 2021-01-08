@@ -2,15 +2,37 @@
 
 ## Description
 
-Module Docs Support (`mod-s`) is a simple Command Line Interface that provides easy terminal access to development tool documentation. Users are encouraged to contribute to the public repository of module documentation. 
+Module Documents Support (`mod-s`) is a simple Command Line Interface that provides easy terminal access to development tool documentation. Documentation links are stored in a publicly accessible database. Users are encouraged to contribute and curate the public repository of module documentation.
 
 ## Content
 
+The mod-s database is populated with 60+ frequently used modules and links to their primary documentation. This content is protected from deletion. All other content is user generated and user editable. Please use your best professional judgment when making updates to the content of this public resource.
+
 ## Installation
+
+- Command Line Installation
+  - Run the following command in the terminal: $`npm install -g mod-support`
+
+- [Access mod-support via NPM](https://www.npmjs.com/package/mod-support)
 
 ## Usage
 
+- Commands
+  - `mod-support` ---------> Access the CLI overview
+    - `mod-s` -------------> Shorthand command for CLI overview
+  - `mod-s list` ----------> Lists all modules currently in the database
+    - `mod-s l` -----------> Shorthand command for list
+  - `mod-s contribute` ----> Allows the user to contribute a new module to the database
+    - `mod-s c` -----------> Shorthand command for contribute
+  - `mod-s update` --------> Allows the user to add an additional document URL to an existing module
+    - `mod-s u` -----------> Shorthand command for update
+  - `mod-s delete` --------> Allows the user to delete community generated content
+    - `mod-s d` -----------> Shorthand command for delete
+  - `-h` ------------------> Added to any other command will provide help for the chosen command
+
 ## Command Line Interface
+
+<!-- Provide a screen shot of the CLI overview -->
 
 ### Contributors
 
