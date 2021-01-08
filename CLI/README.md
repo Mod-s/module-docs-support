@@ -28,18 +28,19 @@ The mod-s database was initially populated with 60+ frequently used modules and 
 
 ## Usage
 
-- **Commands**
-  - `mod-support` --> Access the CLI overview
-    - `mod-s` --> Shorthand command for CLI overview
-  - `mod-s list` --> Lists all modules currently in the database
-    - `mod-s l` --> Shorthand command for list
-  - `mod-s contribute` --> Allows the user to contribute a new module to the database
-    - `mod-s c` --> Shorthand command for contribute
-  - `mod-s update` --> Allows the user to add an additional document URL to an existing module
-    - `mod-s u` --> Shorthand command for update
-  - `mod-s delete` --> Allows the user to delete community generated content
-    - `mod-s d` --> Shorthand command for delete
-  - `-h` --> Added to any other command will provide help for the chosen command
+| **Command** | **Description** |
+| --- | --- |
+| `mod-support` | Access the CLI overview |
+| `mod-s` | Shorthand command for CLI overview |
+| `mod-s list` | Lists all modules currently in the database |
+| `mod-s l` | Shorthand command for list |
+| `mod-s contribute` | Allows the user to contribute a new module to the database |
+| `mod-s c` | Shorthand command for contribute |
+| `mod-s update` | Allows the user to add an additional document URL to an existing module |
+| `mod-s u` | Shorthand command for update |
+| `mod-s delete` | Allows the user to delete community generated content |
+| `mod-s d` | Shorthand command for delete |
+| `-h` | Added to any other command will provide help for the chosen command |
 
 ---
 
