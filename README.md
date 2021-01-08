@@ -9,7 +9,6 @@
 - Many thanks to Lena, Adam, and Brai for assistance with the development of our application.
 - Many additional thanks to the future contributors who will build upon and maintain the content of our database!
 
-
 ## Description 
 
 - A Command Line Interface that allows the user to request the docs for an assortment of Node Modules. The CLI will open the users default browser and display the requested documentation.
