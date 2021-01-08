@@ -227,10 +227,10 @@ program
                     await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
                     .send({ "deleteRecord": 1, "urlToDelete": 0 })
                     .then (()=>{
-                      console.log(chalk.rgb(10, 100, 200)('Thanks for deleting that outdated module'));
+                      console.log(chalk.rgb(245, 66, 209)('Thanks for deleting that outdated module'));
                     })
                     .catch(()=>{
-                      console.log(chalk.rgb(10, 100, 200)('Thanks for deleting that outdated module'));
+                      console.log(chalk.rgb(245, 66, 209)('Thanks for deleting that outdated module'));
                     })
                   }else if(item.name.toUpperCase() === chosenDelete[1] && item.protect === true){
                     console.log(chalk.rgb(247, 180, 23)('This module is protected and cannot be deleted, only user created content can be deleted'));
@@ -279,7 +279,7 @@ program
               await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
                 .send(`{ "deleteRecord": 0, "urlToDelete": ${urlIdx} }`)
                 .then(() => {
-                  console.log(chalk.rgb(10, 100, 200)('Thanks for improving the content of our shared database!'))
+                  console.log(chalk.rgb(245, 66, 209)('Thanks for improving the content of our shared database!'))
                 })
             }
           })
