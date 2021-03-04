@@ -22,11 +22,11 @@
   "homepage": "https://github.com/Mod-s/module-docs-support#readme",
   "dependencies": {
     "@shelf/jest-dynamodb": "^1.7.0",
+    "commander": "^6.2.1",
+    "dynamoose": "^2.7.0",
+    "inquirer": "^7.3.3",
     "jest": "^26.6.3",
     "superagent": "^6.1.0",
-    "dynamoose": "^2.5.0",
-    "commander": "^6.2.1",
-    "inquirer": "^7.3.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
