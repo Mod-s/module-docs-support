@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Mod-s/module-docs-support#readme",
   "dependencies": {
     "commander": "^6.2.1",
-    "dynamoose": "^2.5.0",
+    "dynamoose": "^2.7.0",
     "inquirer": "^7.3.3",
     "jest-dynalite": "^3.2.5",
     "link": "^0.1.5",
