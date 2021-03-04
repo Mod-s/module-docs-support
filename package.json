@@ -4,7 +4,11 @@
   "description": "## Authors: Ricardo Barcenas, Mariko Alvarado, Stacy Burris, Simon Panek",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "start": "node Server/index.js",
+    "lint": "eslint **/*.js",
+    "test": "jest --coverage",
+    "watch": "nodemon Server/index.js",
+    "test-watch": "jest --watchAll --coverage"
   },
   "repository": {
     "type": "git",
@@ -19,10 +23,16 @@
   "homepage": "https://github.com/Mod-s/module-docs-support#readme",
   "dependencies": {
     "commander": "^6.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "dynamoose": "^2.7.0",
+    "eslint": "^7.19.0",
+    "express": "^4.17.1",
     "inquirer": "^7.3.3",
     "jest-dynalite": "^3.2.5",
     "link": "^0.1.5",
+    "mongoose": "^5.11.18",
+    "morgan": "^1.10.0",
     "rxjs": "^6.6.3",
     "uuid": "^8.3.2"
   }
