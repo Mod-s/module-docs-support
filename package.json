@@ -4,10 +4,10 @@
   "description": "## Authors: Ricardo Barcenas, Mariko Alvarado, Stacy Burris, Simon Panek",
   "main": "index.js",
   "scripts": {
-    "start": "node Server/index.js",
+    "start": "node index.js",
     "lint": "eslint **/*.js",
     "test": "jest --coverage",
-    "watch": "nodemon Server/index.js",
+    "watch": "nodemon index.js",
     "test-watch": "jest --watchAll --coverage"
   },
   "repository": {
