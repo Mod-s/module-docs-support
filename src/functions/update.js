@@ -42,11 +42,12 @@ console.log('UPDATE updateHandler data ', data);
     let description = data.description;
     let protect = data.protect;
 
+    let dbID = data._id;
     // console.log('D.____ multipleUrl updated: ', multipleUrl);
 
     let updatedObj = { name, mainUrl, multipleUrl, description, protect }
 
-    const updatedData = await mods.update({ id, updatedObj });
+    const updatedData = await mods.update({ dbID, updatedObj });
   
 console.log('UPDATE updateHandler updatedData ', updatedData);
 
