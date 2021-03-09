@@ -6,7 +6,7 @@ const moduleDocsModel = require('../models/modules.schema.js');
 //TODO: refactor to use req/res
 //TODO: refactor responses
 
-updateHandler = async (event) => {
+const updateHandler = async (event) => {
 
 console.log('UPDATE updateHandler event ', event);
 

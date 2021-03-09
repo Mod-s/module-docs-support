@@ -7,7 +7,7 @@ const moduleDocsModel = require('../models/modules.schema.js');
 //TODO: Refactor event to req, res
 //TODO: Refactor response
 
-createHandler = async (event) => { 
+const createHandler = async (event) => { 
 
 console.log('CREATE createHandler event ', event);
 

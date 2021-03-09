@@ -7,7 +7,7 @@ const moduleDocsModel = require('../models/modules.schema.js');
 //TODO: refactor to use req/res
 //TODO: refactor responses
 
-deleteHandler = async (event) => {
+const deleteHandler = async (event) => {
 
   console.log('DELETE deleteHandler event ', event);
 
