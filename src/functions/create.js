@@ -1,13 +1,7 @@
 'use strict';
 
-// const uuid = require('uuid').v4;
-// const moduleDocsModel = require('../models/modules.schema.js');
 const Collection = require('../models/dataCollection.js');
 const mods = new Collection();
-
-
-//TODO: Refactor event to req, res
-//TODO: Refactor response
 
 const createHandler = async (req, res) => { 
 
