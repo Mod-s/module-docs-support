@@ -32,15 +32,15 @@ console.log('UPDATE updateHandler data ', data);
     // console.log('B.____ Data[0].multipleUrl: ', data[0].multipleUrl);
     //original url's to be updated [ 'www.here1.com', 'www.here2.com' ]
 
-    let name = data[0].name;
-    let mainUrl = data[0].mainUrl;
+    let name = data.name;
+    let mainUrl = data.mainUrl;
     // console.log('mainUrl after query:', mainUrl)
     // let multipleUrl = data[0].multipleUrl.push(updateUrl); //
-    let multipleUrl = data[0].multipleUrl.concat(updateUrl);
+    let multipleUrl = data.multipleUrl.concat(updateUrl);
     // let multipleUrl = updateUrl;
     // console.log('C.____ this is a test of the emergency broadcast system...this is only a test');
-    let description = data[0].description;
-    let protect = data[0].protect;
+    let description = data.description;
+    let protect = data.protect;
 
     // console.log('D.____ multipleUrl updated: ', multipleUrl);
 
