@@ -24,7 +24,7 @@ const deleteHandler = async (req, res) => {
     data = await mods.get(id); //check DB for existing record
     let protect = data.protect; //set temp variable to hold the protect status of the record
 
-    console.log('__Existing Record__: ', data[0]);
+    console.log('__Existing Record__: ', data);
 
     if (deleteRecord === 1 && protect === false) { //check if user wants to delete the whole record and the record is not protect
       await mods.delete(id); //delete the whole record
@@ -44,7 +44,7 @@ const deleteHandler = async (req, res) => {
 
       data.multipleUrl.splice(urlToDelete, 1); //update the user-created url array, remove the selected index position
 
-      let multipleUrl = data[0].multipleUrl;
+      let multipleUrl = data.multipleUrl;
 
       //TO DO:
       //TURN STRINGIFIED RESULT INTO AN ARRAY
