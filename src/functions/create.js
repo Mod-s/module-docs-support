@@ -5,8 +5,7 @@ const mods = new Collection();
 
 const createHandler = async (req, res) => { 
 
-console.log('CREATE createHandler req.body ', req.body);
-console.log('req.body typeof ', typeof req.body);
+// console.log('CREATE createHandler req.body ', req.body);
 
   const { name, mainUrl, multipleUrl, description, protect } = req.body;
 
@@ -17,10 +16,7 @@ console.log('req.body typeof ', typeof req.body);
     const data = await mods.create(record);
     res.status(201).json(data);
   } catch (e) {
-    return {
-      statusCode: 500,
-      response: e.message
-    }
+    res.status(500).send(e.message);
   }
 };
 

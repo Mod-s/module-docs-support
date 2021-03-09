@@ -1,30 +1,31 @@
 'use strict';
 
 
-const moduleDocsModel = require('../models/modules.schema.js');
+const Collection = require('../models/dataCollection.js');
+const mods = new Collection();
 
 //TODO: refactor to use req/res
 //TODO: refactor responses
 
-const updateHandler = async (event) => {
+const updateHandler = async (req, res) => {
 
-console.log('UPDATE updateHandler event ', event);
+console.log('UPDATE updateHandler req.body ', req.body);
 
   // console.log('1.__EVENT__PUT:', event);
-  let { updateUrl } = JSON.parse(event.body);
+  let { updateUrl } = req.body;
 
   //const updateMultipleUrl = JSON.parse(event.body.multipleUrl);
 
-  const id = event.pathParameters.id
+  const id = req.params.id
 
   // console.log('2__Updated updateUrl From User__: ', updateUrl);
   //new urls that were sent with put request (updateUrl) [ 'www.here9000.com', 'www.backagain.com' ]
   try {
     let data;
 
-    data = await moduleDocsModel.query('id').eq(id).limit(1).exec();
+    data = await mods.get(id);
 
-
+console.log('UPDATE updateHandler data ', data);
     // console.log('A.____ Data at 0: ', data[0]);
     //document object {}
 
@@ -43,20 +44,17 @@ console.log('UPDATE updateHandler event ', event);
 
     // console.log('D.____ multipleUrl updated: ', multipleUrl);
 
-    const updatedData = await moduleDocsModel.update({ id, name, mainUrl, multipleUrl, description, protect });
+    let updatedObj = { name, mainUrl, multipleUrl, description, protect }
+
+    const updatedData = await mods.update({ id, updatedObj });
+  
+console.log('UPDATE updateHandler updatedData ', updatedData);
 
     // console.log('3.__Updated Record__: ', updatedData);
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify(updatedData)
-    }
+    res.status(200).json(updatedData);
 
   } catch (e) {
-    return {
-      statusCode: 500,
-      response: e.message
-    }
+    res.status(500).send(e.message);
   }
 }
 

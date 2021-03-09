@@ -4,12 +4,9 @@
 const Collection = require('../models/dataCollection.js');
 const mods = new Collection();
 
-//TODO: refactor for req/res
-//TODO: refactor responses
-
 const readHandler = async (req, res) => {
 
-console.log('READ readHandler req.body ', req.body);
+// console.log('READ readHandler req.body ', req.body);
 
   let id;
   if (req.params) {
@@ -26,10 +23,7 @@ console.log('READ readHandler req.body ', req.body);
     }
     res.status(200).json(data)
   } catch (e) {
-    return {
-      statusCode: 500,
-      response: e.message
-    }
+    res.status(500).send(e.message);
   }
 }
 
