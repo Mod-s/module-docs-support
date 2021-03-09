@@ -22,7 +22,8 @@ program
   .alias('l')
   .description(chalk.rgb(44, 253, 234)('Find the module to get started'))
   .action(function () {
-    superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
+    // superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs') // obsolete: aws deploy 
+    superagent.get('https://module-support.herokuapp.com/mods') //get all records
 
       .then(response => {
         let info = JSON.parse(response.text);
@@ -137,7 +138,8 @@ program
             }
 
             // superagent.post(`https://wmflq300d0.execute-api.us-west-2.amazonaws.com/module-docs-support`) //obsolete: from before serverless deploy (save for now as a back up)
-            superagent.post(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs`)
+            // superagent.post(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs`) //obsolete: aws deploy
+            superagent.post(`https://module-support.herokuapp.com/mods`) //create record
               .send({ "name": `${name}`, "description": `${description}`, "mainUrl": "", "multipleUrl": [`${url}`], protect })
               .then(response => {
                 let info = JSON.parse(response.text);
@@ -154,7 +156,8 @@ program
 
 async function duplicateModuleCheck(name) {
   let duplicateSwitch = 0;
-  await superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
+  // await superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs') //obsolete: aws deploy
+  await superagent.get('https://module-support.herokuapp.com/mods') //get all
     .then(response => {
       let info = JSON.parse(response.text);
       let list = info.map(item => {
@@ -183,7 +186,8 @@ program
   .description(chalk.rgb(44, 253, 234)('Delete user created content'))
   .action(() => {
 
-    superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
+    // superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs') //obsolete: aws deploy
+    superagent.get('https://module-support.herokuapp.com/mods') //get all
 
       .then(response => {
         let info = JSON.parse(response.text);
@@ -224,7 +228,8 @@ program
                   if (item.name.toUpperCase() === chosenDelete[1] && item.protect !== true){
                     id = item.id
 
-                    await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
+                    // await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`) //obsolete: aws deploy
+                    await superagent.delete(`https://module-support.herokuapp.com/mods/${id}`) //delete record
                     .send({ "deleteRecord": 1, "urlToDelete": 0 })
                     .then (()=>{
                       console.log(chalk.rgb(245, 66, 209)('Thanks for deleting that outdated module'));
@@ -276,7 +281,8 @@ program
             }
             async function deleteUrl(module, urlIdx) {
               let id = module.id;
-              await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`)
+              // await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`) //obsolete: aws deploy
+              await superagent.delete(`https://module-support.herokuapp.com/mods/${id}`) //delete record
                 .send(`{ "deleteRecord": 0, "urlToDelete": ${urlIdx} }`)
                 .then(() => {
                   console.log(chalk.rgb(245, 66, 209)('Thanks for improving the content of our shared database!'))
@@ -292,7 +298,8 @@ program
   .description(chalk.rgb(44, 253, 234)('Add the URL to helpful documentation to an existing module we have listed'))
   .action(() => {
     let list;
-    superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs')
+    // superagent.get('https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs') //obsolete: aws deploy
+    superagent.get('https://module-support.herokuapp.com/mods') //get all records
       .then(response => {
         let info = JSON.parse(response.text);
         list = info.map(item => {
@@ -330,7 +337,8 @@ program
                     let regCheck = urlSend.match(regEx); //checks to the URL string for matches to the regex pattern, if found places in an array, if none found returns null
 
                     if (regCheck) {
-                      superagent.put(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${idUpdate}`)
+                      // superagent.put(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${idUpdate}`) //obsolete: aws deploy
+                      superagent.put(`https://module-support.herokuapp.com/mods/${idUpdate}`) //update record
                         .send({ "updateUrl": [`${urlSend}`] })
                         .then((response) => {
                           // console.log(response.text);
