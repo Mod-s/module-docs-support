@@ -14,7 +14,7 @@ const createHandler = async (req, res) => {
 console.log('CREATE createHandler req.body ', req.body);
 console.log('req.body typeof ', typeof req.body);
 
-  //const { name, mainUrl, multipleUrl, description, protect } = req.body;
+  const { name, mainUrl, multipleUrl, description, protect } = req.body;
 
   if (protect === null) (protect = false); //error catch for empty protect field
 
