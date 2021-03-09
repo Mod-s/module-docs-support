@@ -47,7 +47,7 @@ console.log('UPDATE updateHandler data ', data);
 
     let updatedObj = { name, mainUrl, multipleUrl, description, protect }
 
-    const updatedData = await mods.update({ dbID, updatedObj });
+    const updatedData = await mods.update(dbID, updatedObj);
   
 console.log('UPDATE updateHandler updatedData ', updatedData);
 
