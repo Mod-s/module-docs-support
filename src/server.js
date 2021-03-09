@@ -6,6 +6,8 @@ const app = express();
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes.js');
+const errorHandler = require('./error handlers/500.js');
+const notFound = require('./error handlers/404.js');
 
 //App middleware
 app.use(cors()); 
@@ -24,8 +26,8 @@ app.get('/test', (req, res) => {
 })
 
 //Catchalls
-// app.use('*', notFound);
-// app.use(errorHandler);
+app.use('*', notFound);
+app.use(errorHandler);
 
   module.exports = {
     server: app,
