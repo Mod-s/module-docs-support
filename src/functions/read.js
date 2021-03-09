@@ -7,6 +7,9 @@ const moduleDocsModel = require('../models/modules.schema.js');
 //TODO: refactor responses
 
 readHandler = async (event) => {
+
+console.log('READ readHandler event ', event);
+
   let id;
   if (event.pathParameters) {
 

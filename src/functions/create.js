@@ -9,6 +9,8 @@ const moduleDocsModel = require('../models/modules.schema.js');
 
 createHandler = async (event) => { 
 
+console.log('CREATE createHandler event ', event);
+
   const { name, mainUrl, multipleUrl, description, protect } = JSON.parse(event.body);
 
   if (protect === null) (protect = false);

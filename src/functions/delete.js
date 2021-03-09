@@ -9,6 +9,8 @@ const moduleDocsModel = require('../models/modules.schema.js');
 
 deleteHandler = async (event) => {
 
+  console.log('DELETE deleteHandler event ', event);
+
   console.log('1.__EVENT__PUT:', event);
 
   const id = event.pathParameters.id; //capture record id from the user

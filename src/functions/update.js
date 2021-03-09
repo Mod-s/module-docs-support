@@ -8,6 +8,8 @@ const moduleDocsModel = require('../models/modules.schema.js');
 
 updateHandler = async (event) => {
 
+console.log('UPDATE updateHandler event ', event);
+
   // console.log('1.__EVENT__PUT:', event);
   let { updateUrl } = JSON.parse(event.body);
 
