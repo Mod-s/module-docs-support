@@ -56,7 +56,10 @@ const deleteHandler = async (req, res) => {
 
       // console.log('wow, what a let down', typeof(multipleUrl));
 
-      const updatedData = await mods.update({ id, name, mainUrl, multipleUrl, description, protect }); //update the record - only update should be in the multipleUrl
+      let deleteObject = {name, mainUrl, multipleUrl, description, protect};
+      let dbID = data._id;
+
+      const updatedData = await mods.update(dbID, deleteObject); //update the record - only update should be in the multipleUrl
 
       console.log('__Updated Record__: ', updatedData);
 
