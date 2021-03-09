@@ -3,7 +3,6 @@
 const mongoose = require('mongoose');
 
 const moduleDocsSchema = new mongoose.Schema({
-  "id": String,
   "name": String,
   "mainUrl": String,
   "multipleUrl": {
