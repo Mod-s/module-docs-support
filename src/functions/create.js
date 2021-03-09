@@ -12,10 +12,11 @@ const mods = new Collection();
 const createHandler = async (req, res) => { 
 
 console.log('CREATE createHandler req.body ', req.body);
+console.log('req.body typeof ', typeof req.body);
 
-  const { name, mainUrl, multipleUrl, description, protect } = JSON.parse(req.body);
+  //const { name, mainUrl, multipleUrl, description, protect } = req.body;
 
-  if (protect === null) (protect = false); //error catch for empty protect fiedl
+  if (protect === null) (protect = false); //error catch for empty protect field
 
   try {
     const record = req.body;
