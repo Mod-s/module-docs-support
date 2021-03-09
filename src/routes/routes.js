@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const Collection = require('../models/data-collection.js'); //not sure if this is needed
+//const Collection = require('../models/data-collection.js'); //not sure if this is needed
 const createHandler = require('../functions/create.js');
 const deleteHandler = require('../functions/delete.js');
 const readHandler = require('../functions/read.js');
