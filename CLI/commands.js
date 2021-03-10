@@ -226,7 +226,7 @@ program
                 let id;
                 info.forEach(async(item) => {
                   if (item.name.toUpperCase() === chosenDelete[1] && item.protect !== true){
-                    id = item.id
+                    id = item._id
 
                     // await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`) //obsolete: aws deploy
                     await superagent.delete(`https://module-support.herokuapp.com/mods/${id}`) //delete record
@@ -280,7 +280,7 @@ program
               deleteSingleUrl(info, chosenDelete[1]);
             }
             async function deleteUrl(module, urlIdx) {
-              let id = module.id;
+              let id = module._id;
               // await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`) //obsolete: aws deploy
               await superagent.delete(`https://module-support.herokuapp.com/mods/${id}`) //delete record
                 .send(`{ "deleteRecord": 0, "urlToDelete": ${urlIdx} }`)
@@ -328,7 +328,7 @@ program
           .then(answer => {
             info.forEach(item => {
               if (item.name.toUpperCase() === answer.choice) {
-                let idUpdate = item.id;
+                let idUpdate = item._id;
                 inquirer
                   .prompt(addUrl)
                   .then(address => {
