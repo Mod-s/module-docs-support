@@ -284,7 +284,7 @@ program
               console.log('COMMANDS deleteURL module._id, urlIdx ', id, urlIdx);
               // await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`) //obsolete: aws deploy
               await superagent.delete(`https://module-support.herokuapp.com/mods/${id}`) //delete record
-                .send(`{ "deleteRecord": 0, "urlToDelete": ${urlIdx} }`)
+                .send({ 'deleteRecord': 0, 'urlToDelete': urlIdx })
                 .then(() => {
                   console.log(chalk.rgb(245, 66, 209)('Thanks for improving the content of our shared database!'))
                 })
