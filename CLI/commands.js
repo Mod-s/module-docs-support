@@ -281,7 +281,6 @@ program
             }
             async function deleteUrl(module, urlIdx) {
               let id = module._id;
-              console.log('COMMANDS deleteURL module._id, urlIdx ', id, urlIdx);
               // await superagent.delete(`https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/${id}`) //obsolete: aws deploy
               await superagent.delete(`https://module-support.herokuapp.com/mods/${id}`) //delete record
                 .send({ 'deleteRecord': 0, 'urlToDelete': urlIdx })
