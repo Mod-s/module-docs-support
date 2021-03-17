@@ -4,6 +4,10 @@
 
 ## Authors: Ricardo Barcenas, Mariko Alvarado, Stacy Burris, Simon Panek
 
+### Deployment
+
+- [npm](https://www.npmjs.com/package/mod-support)
+
 ### Contributors and Collaborators
 
 - Many thanks to Lena, Adam, and Brai for assistance with the development of our application.
