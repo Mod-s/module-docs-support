@@ -24,15 +24,15 @@
 
 ## Routes
 
-- GET All - https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs
+- GET All - https://module-support.herokuapp.com/mods
   - Requires: None
-- GET 1 - https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/{id}
+- GET 1 - https://module-support.herokuapp.com/mods/{id}
   - Requirements: Must send the record ID as a parameter
-- POST - https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs
-  - Requirements: Must send the record ID as a parameter as well as the following on the body `{"name": "module name", "mainUrl": "http://www.example.com", "multiUrl": ["http://www.exampleTwo.com"], "description": "informative description here", "protect": false}`
-- PUT - https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/{id}
+- POST - https://module-support.herokuapp.com/mods
+  - Requirements: Must send the following on the body `{"name": "module name", "mainUrl": "http://www.example.com", "multiUrl": ["http://www.exampleTwo.com"], "description": "informative description here", "protect": false}`
+- PUT - https://module-support.herokuapp.com/mods/{id}
   - Requirements: Must send the record ID as a parameter as well as the following on the body `{"updateUrl": "http://www.exampl3.com"}`
-- DELETE - https://ib9zg33bta.execute-api.us-west-2.amazonaws.com/modules/docs/{id}
+- DELETE - https://module-support.herokuapp.com/mods/{id}
   - Requirements: Must send the record ID as a parameter as well as the following on the body `{"deleteRecord": <1 or 0>, "urlToDelete": <index position of desired URL>"}`
 
 ## CLI Commands
