@@ -33,7 +33,7 @@
 - GET 1 - https://module-support.herokuapp.com/mods/{id}
   - Requirements: Must send the record ID as a parameter
 - POST - https://module-support.herokuapp.com/mods
-  - Requirements: Must send the following on the body `{"name": "module name", "mainUrl": "http://www.example.com", "multiUrl": ["http://www.exampleTwo.com"], "description": "informative description here", "protect": false}`
+  - Requirements: Must send the following on the body `{"name": "module name", "mainUrl": "http://www.example.com", "multipleUrl": ["http://www.exampleTwo.com"], "description": "informative description here", "protect": false}`
 - PUT - https://module-support.herokuapp.com/mods/{id}
   - Requirements: Must send the record ID as a parameter as well as the following on the body `{"updateUrl": "http://www.exampl3.com"}`
 - DELETE - https://module-support.herokuapp.com/mods/{id}
