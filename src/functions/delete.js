@@ -11,6 +11,7 @@ const deleteHandler = async (req, res) => {
   const { deleteRecord } = req.body; //user input requesting to delete record (users sends 1 to delete whole record or 0 to delete only a user url)
   const { urlToDelete } = req.body; //capture the index position of the user-generated url to delete
   
+  console.log('DELETE req.body ', req.body);
   console.log('DELETE deleteRecord ', deleteRecord);
   console.log('DELETE urlToDelete ', urlToDelete);
 
